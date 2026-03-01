@@ -10,14 +10,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'BarrelMonkey — Distillery Management for Triple Eight',
   description: 'Production tracking. Barrel inventory. TTB reporting. One system, no bloat.',
-  metadataBase: new URL('https://barrelmonkey.app'),
+  metadataBase: new URL('https://barrelmonkey.vercel.app'),
   icons: {
     icon: '/logo/barrelmonkey-favicon.svg',
   },
   openGraph: {
     title: 'BarrelMonkey — Distillery Management for Triple Eight',
     description: 'Production tracking. Barrel inventory. TTB reporting. One system, no bloat.',
-    url: 'https://barrelmonkey.app',
+    url: 'https://barrelmonkey.vercel.app',
     siteName: 'BarrelMonkey',
     locale: 'en_US',
     type: 'website',

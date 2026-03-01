@@ -843,7 +843,7 @@ export default function Home() {
               className="h-10 md:h-12 mx-auto mb-8 brightness-0 invert"
             />
             <p className="text-xl font-semibold mb-2">Built for Triple Eight Distillery</p>
-<p className="text-accent text-sm font-semibold">barrelmonkey.app</p>
+<p className="text-accent text-sm font-semibold">barrelmonkey.vercel.app</p>
           </div>
         </ScrollReveal>
       </footer>
