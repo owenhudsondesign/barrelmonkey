@@ -350,9 +350,11 @@ export default function Home() {
         <div className="absolute inset-0">
           <Image
             src="/images/distillery/webp/hero-rickhouse.webp"
-            alt="Triple Eight rickhouse"
+            alt="Triple Eight rickhouse barrel storage"
             fill
             priority
+            quality={80}
+            sizes="100vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
@@ -477,8 +479,10 @@ export default function Home() {
         <div className="absolute inset-0 opacity-[0.12]">
           <Image
             src="/images/distillery/webp/barrel-numbers.webp"
-            alt=""
+            alt="Numbered barrel ends at Triple Eight Distillery"
             fill
+            quality={75}
+            sizes="100vw"
             className="object-cover"
           />
         </div>
@@ -745,8 +749,10 @@ export default function Home() {
         <div className="absolute inset-0 opacity-[0.1]">
           <Image
             src="/images/distillery/webp/production-floor.webp"
-            alt=""
+            alt="Triple Eight Distillery production floor"
             fill
+            quality={75}
+            sizes="100vw"
             className="object-cover"
           />
         </div>
@@ -821,8 +827,10 @@ export default function Home() {
         <div className="absolute inset-0">
           <Image
             src="/images/distillery/webp/distillery-exterior.webp"
-            alt="Triple Eight Distillery"
+            alt="Triple Eight Distillery exterior with garden"
             fill
+            quality={75}
+            sizes="100vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/75" />
