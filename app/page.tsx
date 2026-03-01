@@ -255,7 +255,7 @@ function Hl({ children, solid }: { children: React.ReactNode; solid?: boolean })
 const features = [
   {
     title: 'Production Logging',
-    desc: <>Track every batch <Hl>from grain to glass</Hl>. Mashing, fermentation, distillation runs, cuts, all in one place. Covers whiskey, vodka, gin, and rum workflows.</>,
+    desc: <>Track every batch from <Hl>mash to barrel</Hl>. Fermentation, distillation runs, cuts, all in one place. Covers whiskey, vodka, gin, and rum workflows.</>,
     mock: <MockBatchEntry />,
   },
   {
