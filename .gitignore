@@ -12,3 +12,7 @@ next-env.d.ts
 # Raw photos (only commit compressed webp versions)
 public/images/distillery/*.jpg
 *.jpeg
+
+# Playwright
+playwright-report/
+test-results/
