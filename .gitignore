@@ -5,5 +5,9 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 
+# Environment variables
+.env.local
+.env*.local
+
 # Raw photos (only commit compressed webp versions)
 public/images/distillery/*.jpg
