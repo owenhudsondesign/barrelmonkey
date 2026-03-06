@@ -20,7 +20,7 @@ function getAdminNav(): NavItem[] {
   return [
     { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard, disabled: true },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Processing', href: '/processing', icon: ICONS.processing, disabled: true },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
     { label: 'Transfers', href: '/transfers', icon: ICONS.transfers, disabled: true },
@@ -35,7 +35,7 @@ function getProducerNav(): NavItem[] {
   return [
     { label: 'Log', href: '/log', icon: ICONS.log, disabled: true },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
