@@ -184,6 +184,97 @@ export interface TankAdjustment {
   created_at: string
 }
 
+export interface BatchingRun {
+  id: string
+  batch_number: string
+  spirit_type: SpiritType
+  product_name: string
+  batch_date: string
+  proof_in: number | null
+  wine_gal_in: number | null
+  proof_gal_in: number | null
+  water_added_gal: number | null
+  target_proof: number | null
+  actual_proof: number | null
+  wine_gal_out: number | null
+  proof_gal_out: number | null
+  to_tank_id: string | null
+  notes: string | null
+  logged_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface BottlingRun {
+  id: string
+  bottling_number: number | null
+  lot_name: string | null
+  start_cs_serial: string | null
+  end_cs_serial: string | null
+  product_name: string
+  recipe: string | null
+  spirit_type: SpiritType
+  bottle_date: string
+  source_tank_id: string | null
+  batching_run_id: string | null
+  ttb_formula: string | null
+  starting_pg_in_tank: number | null
+  proof_gal_bottled: number | null
+  wine_gal_bottled: number | null
+  pack_format: string | null
+  bottle_size_ml: number | null
+  bottles_per_case: number | null
+  cases_filled: number
+  loose_bottles: number
+  pg_loss: number | null
+  pct_loss: number | null
+  labor_hours: number | null
+  total_value: number | null
+  price_per_case: number | null
+  price_per_bottle: number | null
+  notes: string | null
+  logged_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface TibRecord {
+  id: string
+  tib_number: number | null
+  direction: TibDirection
+  tib_type: string | null
+  transfer_date: string
+  spirit_type: SpiritType
+  lot_name: string | null
+  ttb_formula: string | null
+  dsp_name: string | null
+  dsp_number: string | null
+  ref_number: string | null
+  po_number: string | null
+  container_ct: number | null
+  total_pg: number | null
+  total_wg: number | null
+  pf: number | null
+  price_per_pg: number | null
+  is_organic: boolean
+  dest_account: string | null
+  wip_value: number | null
+  tax_due: number | null
+  form_5100_16: string | null
+  notes: string | null
+  logged_by: string
+  created_at: string
+}
+
+export interface TibBarrel {
+  id: string
+  tib_record_id: string
+  barrel_id: string
+  proof_gal: number | null
+  wine_gal: number | null
+  proof: number | null
+}
+
 // Joined types for queries
 export interface BarrelWithRackhouse extends Barrel {
   rackhouse: Pick<Rackhouse, 'id' | 'name' | 'is_offsite'> | null
