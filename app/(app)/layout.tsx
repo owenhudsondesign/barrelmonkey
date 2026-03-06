@@ -24,9 +24,9 @@ function getAdminNav(): NavItem[] {
     { label: 'Processing', href: '/processing', icon: ICONS.processing },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
     { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
-    { label: 'Reports', href: '/reports', icon: ICONS.reports, disabled: true },
+    { label: 'Reports', href: '/reports', icon: ICONS.reports },
     { label: 'Import', href: '/admin/import', icon: ICONS.import },
-    { label: 'Admin', href: '/admin', icon: ICONS.admin, disabled: true },
+    { label: 'Admin', href: '/admin', icon: ICONS.admin },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
 }
