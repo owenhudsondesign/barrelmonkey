@@ -128,6 +128,49 @@ export interface BarrelEvent {
   created_at: string
 }
 
+export interface FermentationBatch {
+  id: string
+  cook_number: number | null
+  lot_name: string | null
+  batch_number: string
+  ws_batch_number: number | null
+  dsp_number: string | null
+  internal_run_name: string | null
+  internal_lot_name: string | null
+  fermenter_id: string
+  spirit_type: SpiritType
+  mash_bill: string | null
+  bbl_size: number | null
+  volume_gal: number | null
+  start_date: string
+  stripped_date: string | null
+  total_days: number | null
+  total_hours: number | null
+  start_sg: number | null
+  potential_pf: number | null
+  potential_pg: number | null
+  ending_sg: number | null
+  ph: number | null
+  temp_f: number | null
+  status: FermentationStatus
+  notes: string | null
+  logged_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface FermentationMove {
+  id: string
+  fermentation_batch_id: string
+  from_fermenter_id: string
+  to_tank_id: string
+  volume_gal: number
+  move_date: string
+  notes: string | null
+  logged_by: string
+  created_at: string
+}
+
 export interface DistillationRun {
   id: string
   run_number: number
@@ -136,11 +179,28 @@ export interface DistillationRun {
   mash_bill: string | null
   still_name: 'Rocket' | 'Arnold' | 'Both' | null
   run_phase: 'strip' | 'spirit' | 'low_wines' | 'processing' | null
-  run_date: string
+  source_run_id: string | null
+  source_tank_id: string | null
+  fermentation_batch_id: string | null
   run_timestamp: string
-  proof_gal: number
+  run_date: string
+  operator: string | null
+  output_account: 'Production' | 'Storage' | 'ProcessingBulk' | null
+  pg_feints: number | null
+  pg_heads: number | null
+  pg_hearts: number | null
+  pg_tails: number | null
+  pg_low_wines: number | null
   pg_total: number | null
+  proof_in: number | null
+  proof_out: number | null
+  proof_gal: number
+  temp_f: number | null
+  to_tank_id: string | null
   notes: string | null
+  logged_by: string
+  created_at: string
+  updated_at: string
 }
 
 export interface DumpBatch {
@@ -236,6 +296,20 @@ export interface Database {
         Row: Fermenter
         Insert: Omit<Fermenter, 'id' | 'created_at'> & { id?: string; created_at?: string }
         Update: Partial<Omit<Fermenter, 'id'>>
+      }
+      fermentation_batches: {
+        Row: FermentationBatch
+        Insert: Omit<FermentationBatch, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Omit<FermentationBatch, 'id'>>
+      }
+      fermentation_moves: {
+        Row: FermentationMove
+        Insert: Omit<FermentationMove, 'id' | 'created_at'> & { id?: string; created_at?: string }
+        Update: Partial<Omit<FermentationMove, 'id'>>
       }
       tanks: {
         Row: Tank

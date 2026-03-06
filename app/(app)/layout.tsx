@@ -18,11 +18,11 @@ const ICONS = {
 
 function getAdminNav(): NavItem[] {
   return [
-    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard, disabled: true },
+    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Processing', href: '/processing', icon: ICONS.processing, disabled: true },
-    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks },
     { label: 'Transfers', href: '/transfers', icon: ICONS.transfers, disabled: true },
     { label: 'Reports', href: '/reports', icon: ICONS.reports, disabled: true },
     { label: 'Import', href: '/admin/import', icon: ICONS.import },
@@ -35,8 +35,8 @@ function getProducerNav(): NavItem[] {
   return [
     { label: 'Log', href: '/log', icon: ICONS.log, disabled: true },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
-    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
+    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
 }
