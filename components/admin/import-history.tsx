@@ -1,13 +1,6 @@
 import { getImportHistory } from '@/lib/queries/admin'
 import { formatDateTime } from '@/lib/utils/format'
 
-const STATUS_STYLES: Record<string, string> = {
-  complete: 'bg-success/10 text-success border-success/20',
-  partial: 'bg-warning/10 text-warning border-warning/20',
-  failed: 'bg-error/10 text-error border-error/20',
-  pending: 'bg-white/5 text-white/40 border-white/10',
-}
-
 export async function ImportHistory() {
   const imports = await getImportHistory()
 
@@ -24,7 +17,6 @@ export async function ImportHistory() {
               <th className="px-4 py-3 font-medium">Rows</th>
               <th className="px-4 py-3 font-medium">Success</th>
               <th className="px-4 py-3 font-medium">Errors</th>
-              <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium">By</th>
               <th className="px-4 py-3 font-medium">Date</th>
             </tr>
@@ -37,7 +29,7 @@ export async function ImportHistory() {
               >
                 <td className="px-4 py-3 text-white/80 capitalize">{row.import_type}</td>
                 <td className="px-4 py-3 text-white/60 text-xs max-w-[200px] truncate">
-                  {row.file_name ?? '—'}
+                  {row.filename}
                 </td>
                 <td className="px-4 py-3 text-white/60">{row.row_count ?? '—'}</td>
                 <td className="px-4 py-3 text-success">{row.success_count ?? '—'}</td>
@@ -47,11 +39,6 @@ export async function ImportHistory() {
                   ) : (
                     <span className="text-white/40">{row.error_count ?? '—'}</span>
                   )}
-                </td>
-                <td className="px-4 py-3">
-                  <span className={`inline-flex items-center text-[11px] font-medium uppercase tracking-wider px-2 py-0.5 rounded border ${STATUS_STYLES[row.status] ?? STATUS_STYLES.pending}`}>
-                    {row.status}
-                  </span>
                 </td>
                 <td className="px-4 py-3 text-white/60 text-xs">
                   {row.imported_by_user?.full_name ?? '—'}
@@ -63,7 +50,7 @@ export async function ImportHistory() {
             ))}
             {imports.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={7} className="px-4 py-8 text-center text-white/30">
                   No imports found
                 </td>
               </tr>

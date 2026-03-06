@@ -4,8 +4,8 @@ import type { TtbReportType, TtbReportStatus } from '@/lib/types/database'
 export interface TtbReportListRow {
   id: string
   report_type: TtbReportType
-  report_month: number
-  report_year: number
+  period_month: number
+  period_year: number
   status: TtbReportStatus
   generated_at: string | null
   reviewed_at: string | null
@@ -35,8 +35,8 @@ export async function getTtbReports(params: ReportListParams) {
   }
 
   const { data, error, count } = await query
-    .order('report_year', { ascending: false })
-    .order('report_month', { ascending: false })
+    .order('period_year', { ascending: false })
+    .order('period_month', { ascending: false })
     .returns<TtbReportListRow[]>()
 
   if (error) throw error

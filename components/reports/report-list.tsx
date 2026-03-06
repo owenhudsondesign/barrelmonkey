@@ -51,7 +51,7 @@ export async function ReportList({ searchParams }: ReportListProps) {
                 className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors"
               >
                 <td className="px-4 py-3 text-white/80 font-medium">
-                  {MONTHS[report.report_month - 1]} {report.report_year}
+                  {MONTHS[report.period_month - 1]} {report.period_year}
                 </td>
                 <td className="px-4 py-3 text-white/60 text-xs">
                   {TYPE_LABELS[report.report_type] ?? report.report_type}

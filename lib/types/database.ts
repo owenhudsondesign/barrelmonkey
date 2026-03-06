@@ -209,11 +209,16 @@ export interface BottlingRun {
   id: string
   bottling_number: number | null
   lot_name: string | null
+  start_cs_serial: string | null
+  end_cs_serial: string | null
   product_name: string
+  recipe: string | null
   spirit_type: SpiritType
   bottle_date: string
   source_tank_id: string | null
   batching_run_id: string | null
+  ttb_formula: string | null
+  starting_pg_in_tank: number | null
   proof_gal_bottled: number | null
   wine_gal_bottled: number | null
   pack_format: string | null
@@ -223,8 +228,10 @@ export interface BottlingRun {
   loose_bottles: number
   pg_loss: number | null
   pct_loss: number | null
+  labor_hours: number | null
   total_value: number | null
   price_per_case: number | null
+  price_per_bottle: number | null
   notes: string | null
   logged_by: string
   created_at: string
@@ -239,12 +246,20 @@ export interface TibRecord {
   transfer_date: string
   spirit_type: SpiritType
   lot_name: string | null
+  ttb_formula: string | null
   dsp_name: string | null
   dsp_number: string | null
+  ref_number: string | null
+  po_number: string | null
   container_ct: number | null
   total_pg: number | null
   total_wg: number | null
   pf: number | null
+  price_per_pg: number | null
+  is_organic: boolean
+  dest_account: string | null
+  wip_value: number | null
+  tax_due: number | null
   form_5100_16: string | null
   notes: string | null
   logged_by: string

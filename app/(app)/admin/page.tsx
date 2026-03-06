@@ -1,4 +1,6 @@
 import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 import { AdminTabs } from '@/components/admin/admin-tabs'
 import { UserList } from '@/components/admin/user-list'
 import { EquipmentOverview } from '@/components/admin/equipment-overview'
@@ -13,6 +15,18 @@ export default async function AdminPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>
 }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const { data: profile } = await supabase
+    .from('users')
+    .select('role')
+    .eq('id', user.id)
+    .single<{ role: string }>()
+
+  if (profile?.role !== 'admin') redirect('/barrels')
+
   const params = await searchParams
   const tab = params.tab ?? 'users'
 

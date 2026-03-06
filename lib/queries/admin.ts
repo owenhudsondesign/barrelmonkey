@@ -18,11 +18,10 @@ export interface EquipmentCounts {
 export interface ImportHistoryRow {
   id: string
   import_type: string
-  file_name: string | null
+  filename: string
   row_count: number | null
   success_count: number | null
   error_count: number | null
-  status: string
   created_at: string
   imported_by_user: { full_name: string } | null
 }
@@ -60,7 +59,7 @@ export async function getImportHistory() {
   const { data, error } = await supabase
     .from('csv_imports')
     .select(
-      `id, import_type, file_name, row_count, success_count, error_count, status, created_at,
+      `id, import_type, filename, row_count, success_count, error_count, created_at,
        imported_by_user:users(full_name)`
     )
     .order('created_at', { ascending: false })
