@@ -33,7 +33,7 @@ function getAdminNav(): NavItem[] {
 
 function getProducerNav(): NavItem[] {
   return [
-    { label: 'Log', href: '/log', icon: ICONS.log, disabled: true },
+    { label: 'Log', href: '/log', icon: ICONS.log },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
     { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
