@@ -18,7 +18,7 @@ const ICONS = {
 
 function getAdminNav(): NavItem[] {
   return [
-    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard, disabled: true },
+    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
     { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Processing', href: '/processing', icon: ICONS.processing, disabled: true },
