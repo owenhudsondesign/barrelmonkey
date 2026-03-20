@@ -275,6 +275,90 @@ export interface TibBarrel {
   proof: number | null
 }
 
+export interface BatchingRunBarrel {
+  id: string
+  batching_run_id: string
+  barrel_id: string
+  proof_gal_contributed: number | null
+  wine_gal_contributed: number | null
+  notes: string | null
+}
+
+export interface BatchingRunTank {
+  id: string
+  batching_run_id: string
+  tank_id: string
+  proof_gal_contributed: number | null
+  wine_gal_contributed: number | null
+  notes: string | null
+}
+
+// Provenance types
+export interface ProvenanceBottlingRun {
+  id: string
+  bottling_number: number | null
+  product_name: string
+  lot_name: string | null
+  spirit_type: SpiritType
+  bottle_date: string
+  pack_format: string | null
+  bottle_size_ml: number | null
+  bottles_per_case: number | null
+  cases_filled: number
+  loose_bottles: number
+  proof_gal_bottled: number | null
+  wine_gal_bottled: number | null
+}
+
+export interface ProvenanceBatchingRun {
+  id: string
+  batch_number: string
+  product_name: string
+  spirit_type: SpiritType
+  batch_date: string
+  proof_gal_in: number | null
+  wine_gal_in: number | null
+  proof_gal_out: number | null
+  wine_gal_out: number | null
+  bottling_runs: ProvenanceBottlingRun[]
+}
+
+export interface BarrelProvenance {
+  batchingRuns: ProvenanceBatchingRun[]
+}
+
+export interface ProductProvenanceBarrel {
+  id: string
+  barrel_number: string
+  spirit_type: SpiritType
+  status: BarrelStatus
+  fill_date: string | null
+  dump_date: string | null
+  size_gal: number | null
+  cooperage: string | null
+  proof_gal_contributed: number | null
+  wine_gal_contributed: number | null
+}
+
+export interface ProductProvenanceResult {
+  id: string
+  bottling_number: number | null
+  product_name: string
+  lot_name: string | null
+  spirit_type: SpiritType
+  bottle_date: string
+  cases_filled: number
+  loose_bottles: number
+  bottles_per_case: number | null
+  batching_run: {
+    id: string
+    batch_number: string
+    product_name: string
+    batch_date: string
+    barrels: ProductProvenanceBarrel[]
+  } | null
+}
+
 // Joined types for queries
 export interface BarrelWithRackhouse extends Barrel {
   rackhouse: Pick<Rackhouse, 'id' | 'name' | 'is_offsite'> | null
@@ -352,6 +436,34 @@ export interface Database {
         Row: TankAdjustment
         Insert: Omit<TankAdjustment, 'id' | 'created_at'> & { id?: string; created_at?: string }
         Update: Partial<Omit<TankAdjustment, 'id'>>
+      }
+      batching_runs: {
+        Row: BatchingRun
+        Insert: Omit<BatchingRun, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Omit<BatchingRun, 'id'>>
+      }
+      batching_run_barrels: {
+        Row: BatchingRunBarrel
+        Insert: Omit<BatchingRunBarrel, 'id'> & { id?: string }
+        Update: Partial<Omit<BatchingRunBarrel, 'id'>>
+      }
+      batching_run_tanks: {
+        Row: BatchingRunTank
+        Insert: Omit<BatchingRunTank, 'id'> & { id?: string }
+        Update: Partial<Omit<BatchingRunTank, 'id'>>
+      }
+      bottling_runs: {
+        Row: BottlingRun
+        Insert: Omit<BottlingRun, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<Omit<BottlingRun, 'id'>>
       }
     }
     Views: {
