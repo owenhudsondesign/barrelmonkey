@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 const PUBLIC_ROUTES = ['/', '/login']
 
-const ADMIN_ONLY_PREFIXES = ['/dashboard', '/admin', '/reports/ttb']
+const ADMIN_ONLY_PREFIXES: string[] = []
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

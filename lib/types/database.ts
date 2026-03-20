@@ -128,6 +128,68 @@ export interface BarrelEvent {
   created_at: string
 }
 
+export interface FermentationBatch {
+  id: string
+  cook_number: number | null
+  lot_name: string | null
+  batch_number: string
+  ws_batch_number: number | null
+  dsp_number: string | null
+  internal_run_name: string | null
+  internal_lot_name: string | null
+  fermenter_id: string
+  spirit_type: SpiritType
+  mash_bill: string | null
+  bbl_size: number | null
+  volume_gal: number | null
+  start_date: string
+  stripped_date: string | null
+  total_days: number | null
+  total_hours: number | null
+  start_sg: number | null
+  potential_pf: number | null
+  potential_pg: number | null
+  ending_sg: number | null
+  ph: number | null
+  temp_f: number | null
+  status: FermentationStatus
+  notes: string | null
+  logged_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface FermentationMove {
+  id: string
+  fermentation_batch_id: string
+  from_fermenter_id: string
+  to_tank_id: string
+  volume_gal: number
+  move_date: string
+  notes: string | null
+  logged_by: string
+  created_at: string
+}
+
+export interface TankEvent {
+  id: string
+  tank_id: string
+  event_type: TankEventType
+  event_date: string
+  proof_gal_start: number | null
+  proof_gal_end: number | null
+  proof_gal_delta: number | null
+  wine_gal: number | null
+  proof: number | null
+  temp_f: number | null
+  to_tank_id: string | null
+  from_tank_id: string | null
+  distillation_run_id: string | null
+  notes: string | null
+  logged_by: string
+  created_at: string
+}
+
 export interface DistillationRun {
   id: string
   run_number: number
@@ -416,6 +478,11 @@ export interface Database {
         Row: Tank
         Insert: Omit<Tank, 'id' | 'created_at'> & { id?: string; created_at?: string }
         Update: Partial<Omit<Tank, 'id'>>
+      }
+      tank_events: {
+        Row: TankEvent
+        Insert: Omit<TankEvent, 'id' | 'created_at'> & { id?: string; created_at?: string }
+        Update: Partial<Omit<TankEvent, 'id'>>
       }
       distillation_runs: {
         Row: DistillationRun
