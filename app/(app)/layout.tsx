@@ -19,31 +19,34 @@ const ICONS = {
 
 function getAdminNav(): NavItem[] {
   return [
-    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard, disabled: true },
+    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
     { label: 'Provenance', href: '/provenance', icon: ICONS.provenance },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Processing', href: '/processing', icon: ICONS.processing },
-    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks },
     { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
     { label: 'Reports', href: '/reports', icon: ICONS.reports },
     { label: 'Import', href: '/admin/import', icon: ICONS.import },
     { label: 'Admin', href: '/admin', icon: ICONS.admin },
-    { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
+    { label: 'Calculators', href: '/calculators', icon: ICONS.calculators },
   ]
 }
 
 function getProducerNav(): NavItem[] {
   return [
-    { label: 'Log', href: '/log', icon: ICONS.log, disabled: true },
+    { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard },
+    { label: 'Log', href: '/log', icon: ICONS.log },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
     { label: 'Provenance', href: '/provenance', icon: ICONS.provenance },
-    { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Production', href: '/production', icon: ICONS.production },
     { label: 'Processing', href: '/processing', icon: ICONS.processing },
-    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Tanks', href: '/tanks', icon: ICONS.tanks },
     { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
     { label: 'Reports', href: '/reports', icon: ICONS.reports },
-    { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
+    { label: 'Import', href: '/admin/import', icon: ICONS.import },
+    { label: 'Admin', href: '/admin', icon: ICONS.admin },
+    { label: 'Calculators', href: '/calculators', icon: ICONS.calculators },
   ]
 }
 

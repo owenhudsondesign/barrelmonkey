@@ -1,0 +1,50 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const i=JSON.parse(d);const cmd=i.tool_input?.command||'';if(/(npm run dev\\b|pnpm( run)? dev\\b|yarn dev\\b|bun run dev\\b)/.test(cmd)){console.error('[Hook] BLOCKED: Dev server must run in tmux for log access');console.error('[Hook] Use: tmux new-session -d -s dev \\\"npm run dev\\\"');process.exit(2)}}catch{}console.log(d)})\""
+          }
+        ],
+        "description": "Block dev servers outside tmux - ensures you can access logs"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const i=JSON.parse(d);const cmd=i.tool_input?.command||'';if(/git push/.test(cmd)){console.error('[Hook] Review changes before push...')}}catch{}console.log(d)})\""
+          }
+        ],
+        "description": "Reminder before git push to review changes"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const i=JSON.parse(d);const cmd=i.tool_input?.command||'';if(/gh pr create/.test(cmd)){const out=i.tool_output?.output||'';const m=out.match(/https:\\/\\/github.com\\/[^/]+\\/[^/]+\\/pull\\/\\d+/);if(m){console.error('[Hook] PR created: '+m[0])}}}catch{}console.log(d)})\""
+          }
+        ],
+        "description": "Log PR URL after PR creation"
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const{execSync}=require('child_process');try{const diff=execSync('git diff --cached --name-only 2>/dev/null || git diff --name-only 2>/dev/null',{encoding:'utf8'});const files=diff.trim().split('\\n').filter(f=>/\\.(ts|tsx|js|jsx)$/.test(f));let found=false;for(const f of files){try{const c=require('fs').readFileSync(f,'utf8');if(/console\\.log/.test(c)){console.error('[Hook] Warning: console.log found in '+f);found=true}}catch{}}if(found)console.error('[Hook] Remove console.log before committing')}catch{}\""
+          }
+        ],
+        "description": "Check for console.log in modified files after each response"
+      }
+    ]
+  }
+}
