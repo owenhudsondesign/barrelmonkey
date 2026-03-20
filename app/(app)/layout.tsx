@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Sidebar, type NavItem } from '@/components/ui/sidebar'
 
 const ICONS = {
+  provenance: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v3m0 12v3" /></svg>,
   dashboard: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>,
   barrels: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
   production: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>,
@@ -20,13 +21,14 @@ function getAdminNav(): NavItem[] {
   return [
     { label: 'Dashboard', href: '/dashboard', icon: ICONS.dashboard, disabled: true },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
+    { label: 'Provenance', href: '/provenance', icon: ICONS.provenance },
     { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
-    { label: 'Processing', href: '/processing', icon: ICONS.processing, disabled: true },
+    { label: 'Processing', href: '/processing', icon: ICONS.processing },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
-    { label: 'Transfers', href: '/transfers', icon: ICONS.transfers, disabled: true },
-    { label: 'Reports', href: '/reports', icon: ICONS.reports, disabled: true },
+    { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
+    { label: 'Reports', href: '/reports', icon: ICONS.reports },
     { label: 'Import', href: '/admin/import', icon: ICONS.import },
-    { label: 'Admin', href: '/admin', icon: ICONS.admin, disabled: true },
+    { label: 'Admin', href: '/admin', icon: ICONS.admin },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
 }
@@ -35,8 +37,12 @@ function getProducerNav(): NavItem[] {
   return [
     { label: 'Log', href: '/log', icon: ICONS.log, disabled: true },
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
+    { label: 'Provenance', href: '/provenance', icon: ICONS.provenance },
     { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Processing', href: '/processing', icon: ICONS.processing },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
+    { label: 'Reports', href: '/reports', icon: ICONS.reports },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
 }

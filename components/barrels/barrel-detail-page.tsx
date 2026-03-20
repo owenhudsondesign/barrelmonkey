@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getBarrelById } from '@/lib/queries/barrels'
+import { getBarrelProvenance } from '@/lib/queries/provenance'
 import { StatusBadge } from '@/components/ui/status-badge'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { BarrelTimeline } from './barrel-timeline'
+import { BarrelProvenance } from './barrel-provenance'
 import { computeAge, formatDate, formatProof, formatGallons, formatProofGallons } from '@/lib/utils/format'
 
 interface BarrelDetailPageProps {
@@ -19,6 +21,11 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
   }
 
   if (!barrel) notFound()
+
+  // Fetch provenance for timeline (only for dumped barrels)
+  const provenance = barrel.status === 'dumped'
+    ? await getBarrelProvenance(barrelId)
+    : null
 
   const rackhouse = barrel.rackhouse
   const distRuns = barrel.barrel_distillation_runs ?? []
@@ -78,6 +85,11 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
             <Stat label="Dump WG" value={formatGallons(barrel.dump_wine_gal)} />
           </div>
         </div>
+      )}
+
+      {/* Provenance — shown for dumped barrels */}
+      {barrel.status === 'dumped' && (
+        <BarrelProvenance barrelId={barrelId} />
       )}
 
       {/* Fill Summary + Current Status */}
@@ -149,7 +161,7 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
           </span>
         </h2>
         {barrel.events && barrel.events.length > 0 ? (
-          <BarrelTimeline events={barrel.events} />
+          <BarrelTimeline events={barrel.events} provenance={provenance} />
         ) : (
           <p className="text-white/30 text-sm py-8 text-center">No events recorded yet.</p>
         )}
