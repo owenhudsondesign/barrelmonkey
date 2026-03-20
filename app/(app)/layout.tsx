@@ -39,7 +39,10 @@ function getProducerNav(): NavItem[] {
     { label: 'Barrels', href: '/barrels', icon: ICONS.barrels },
     { label: 'Provenance', href: '/provenance', icon: ICONS.provenance },
     { label: 'Production', href: '/production', icon: ICONS.production, disabled: true },
+    { label: 'Processing', href: '/processing', icon: ICONS.processing },
     { label: 'Tanks', href: '/tanks', icon: ICONS.tanks, disabled: true },
+    { label: 'Transfers', href: '/transfers', icon: ICONS.transfers },
+    { label: 'Reports', href: '/reports', icon: ICONS.reports },
     { label: 'Calculators', href: '/calculators', icon: ICONS.calculators, disabled: true },
   ]
 }
