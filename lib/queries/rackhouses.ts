@@ -18,6 +18,7 @@ export async function getRackhouses(): Promise<{
   const { data, error, count } = await supabase
     .from('rackhouses')
     .select('id, name, is_offsite, address, active', { count: 'exact' })
+    .eq('active', true)
     .order('name')
     .returns<Array<{ id: string; name: string; is_offsite: boolean; address: string | null; active: boolean }>>()
 
