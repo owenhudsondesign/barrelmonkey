@@ -38,7 +38,7 @@ export async function FermentationList() {
               >
                 <td className="px-4 py-3 text-white/80 font-medium">{batch.batch_number}</td>
                 <td className="px-4 py-3 text-white/60">{batch.cook_number ?? '—'}</td>
-                <td className="px-4 py-3 text-white/60">{batch.internal_lot_name ?? batch.lot_name ?? '—'}</td>
+                <td className="px-4 py-3 text-white/60 max-w-[150px] truncate">{batch.internal_lot_name ?? batch.lot_name ?? '—'}</td>
                 <td className="px-4 py-3"><SpiritBadge type={batch.spirit_type} /></td>
                 <td className="px-4 py-3 text-white/60">{batch.fermenter?.name ?? '—'}</td>
                 <td className="px-4 py-3 text-white/60">{formatDate(batch.start_date)}</td>
