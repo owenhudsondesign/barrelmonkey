@@ -48,7 +48,7 @@ export function Roles() {
                   <ClipboardList size={18} className="text-accent" />
                 </div>
                 <div>
-                  <div className="text-lg font-bold">Nicole</div>
+                  <div className="text-lg font-bold">Admin</div>
                   <div className="text-[11px] text-white/40 uppercase tracking-wider">Admin &amp; Compliance</div>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export function Roles() {
                   <Layers size={18} className="text-white" />
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-white">Randy + Team</div>
+                  <div className="text-lg font-bold text-white">Production Team</div>
                   <div className="text-[11px] text-white/40 uppercase tracking-wider">Production</div>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export function Roles() {
 
         <ScrollReveal delay={250}>
           <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed tracking-tight text-center mt-14 text-white/80">
-            Nicole manages compliance. The crew manages production.
+            Admin manages compliance. The crew manages production.
             <br className="hidden md:block" />
             <strong><Hl solid>BarrelMonkey keeps them in sync.</Hl></strong>
           </p>
