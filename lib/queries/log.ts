@@ -77,8 +77,14 @@ export async function getRecentActivity(
     tankQuery.returns<TankEventRow[]>(),
   ])
 
-  if (barrelResult.error) throw barrelResult.error
-  if (tankResult.error) throw tankResult.error
+  if (barrelResult.error) {
+    console.error('Barrel events query error:', barrelResult.error.message)
+    return []
+  }
+  if (tankResult.error) {
+    console.error('Tank events query error:', tankResult.error.message)
+    return []
+  }
 
   const barrelEntries: ReadonlyArray<ActivityEntry> = (barrelResult.data ?? []).map(
     (row) => ({

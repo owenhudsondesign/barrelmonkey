@@ -13,10 +13,10 @@ export async function DashboardContent() {
       <section>
         <div className="text-xs text-white/30 uppercase tracking-wider mb-3">Barrels</div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Aging" value={stats.barrels.aging} color="success" subtitle="in rackhouses" />
-          <StatCard label="Dumped" value={stats.barrels.dumped} color="warning" />
-          <StatCard label="Empty" value={stats.barrels.empty} color="default" />
-          <StatCard label="Transferred" value={stats.barrels.transferred} color="default" />
+          <StatCard label="Aging" value={stats.barrels.aging} color="success" subtitle="in rackhouses" href="/barrels?status=aging" />
+          <StatCard label="Dumped" value={stats.barrels.dumped} color="warning" href="/barrels?status=dumped" />
+          <StatCard label="Empty" value={stats.barrels.empty} color="default" href="/barrels?status=empty" />
+          <StatCard label="Transferred" value={stats.barrels.transferred} color="default" href="/barrels?status=transferred" />
         </div>
       </section>
 
@@ -24,9 +24,9 @@ export async function DashboardContent() {
       <section>
         <div className="text-xs text-white/30 uppercase tracking-wider mb-3">Equipment</div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <StatCard label="Rackhouses" value={stats.equipment.rackhouses} />
-          <StatCard label="Fermenters" value={stats.equipment.fermenters} subtitle="active" />
-          <StatCard label="Tanks" value={stats.equipment.tanks} subtitle="active" />
+          <StatCard label="Rackhouses" value={stats.equipment.rackhouses} href="/production?tab=rackhouses" />
+          <StatCard label="Fermenters" value={stats.equipment.fermenters} subtitle="active" href="/production?tab=fermenters" />
+          <StatCard label="Tanks" value={stats.equipment.tanks} subtitle="active" href="/tanks" />
         </div>
       </section>
 
@@ -34,9 +34,9 @@ export async function DashboardContent() {
       <section>
         <div className="text-xs text-white/30 uppercase tracking-wider mb-3">TTB Reports</div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <StatCard label="Draft Reports" value={stats.ttbReports.draft} color="warning" />
-          <StatCard label="Reviewed" value={stats.ttbReports.reviewed} color="accent" />
-          <StatCard label="Filed" value={stats.ttbReports.filed} color="success" />
+          <StatCard label="Draft Reports" value={stats.ttbReports.draft} color="warning" href="/reports?status=draft" />
+          <StatCard label="Reviewed" value={stats.ttbReports.reviewed} color="accent" href="/reports?status=reviewed" />
+          <StatCard label="Filed" value={stats.ttbReports.filed} color="success" href="/reports?status=filed" />
         </div>
       </section>
 
