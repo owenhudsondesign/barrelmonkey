@@ -52,7 +52,7 @@ export async function getRecentActivity(
     .select(
       `id, barrel_id, event_type, event_date, proof_gal, notes,
        barrel:barrels(barrel_number),
-       logged_by_user:users!barrel_events_logged_by_fkey(full_name)`
+       logged_by_user:users!logged_by(full_name)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)
@@ -62,7 +62,7 @@ export async function getRecentActivity(
     .select(
       `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, notes,
        tank:tanks(name),
-       logged_by_user:users!tank_events_logged_by_fkey(full_name)`
+       logged_by_user:users!logged_by(full_name)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)

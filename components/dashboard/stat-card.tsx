@@ -33,7 +33,7 @@ export function StatCard({ label, value, subtitle, color = 'default', href }: St
     return (
       <Link
         href={href}
-        className="rounded-lg border border-white/10 bg-white/[0.02] p-5 transition-colors hover:bg-white/[0.05] hover:border-white/20"
+        className="block rounded-lg border border-white/10 bg-white/[0.02] p-5 transition-colors hover:bg-white/[0.05] hover:border-white/20"
       >
         {content}
       </Link>
