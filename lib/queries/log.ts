@@ -21,7 +21,6 @@ interface BarrelEventRow {
   proof_gal: number | null
   notes: string | null
   barrel: { barrel_number: string } | null
-  logged_by_user: { full_name: string } | null
 }
 
 interface TankEventRow {
@@ -33,7 +32,6 @@ interface TankEventRow {
   proof_gal_end: number | null
   notes: string | null
   tank: { name: string } | null
-  logged_by_user: { full_name: string } | null
 }
 
 interface GetRecentActivityParams {
@@ -51,8 +49,7 @@ export async function getRecentActivity(
     .from('barrel_events')
     .select(
       `id, barrel_id, event_type, event_date, proof_gal, notes,
-       barrel:barrels(barrel_number),
-       logged_by_user:users!logged_by(full_name)`
+       barrel:barrels(barrel_number)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)
@@ -61,8 +58,7 @@ export async function getRecentActivity(
     .from('tank_events')
     .select(
       `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, notes,
-       tank:tanks(name),
-       logged_by_user:users!logged_by(full_name)`
+       tank:tanks(name)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)
@@ -77,8 +73,12 @@ export async function getRecentActivity(
     tankQuery.returns<TankEventRow[]>(),
   ])
 
-  if (barrelResult.error) throw barrelResult.error
-  if (tankResult.error) throw tankResult.error
+  if (barrelResult.error) {
+    console.error('Barrel events query error:', barrelResult.error)
+  }
+  if (tankResult.error) {
+    console.error('Tank events query error:', tankResult.error)
+  }
 
   const barrelEntries: ReadonlyArray<ActivityEntry> = (barrelResult.data ?? []).map(
     (row) => ({
@@ -90,7 +90,7 @@ export async function getRecentActivity(
       event_date: row.event_date,
       proof_gal: row.proof_gal,
       notes: row.notes,
-      logged_by_name: row.logged_by_user?.full_name ?? null,
+      logged_by_name: null,
     })
   )
 
@@ -104,7 +104,7 @@ export async function getRecentActivity(
       event_date: row.event_date,
       proof_gal: row.proof_gal_end ?? row.proof_gal_start,
       notes: row.notes,
-      logged_by_name: row.logged_by_user?.full_name ?? null,
+      logged_by_name: null,
     })
   )
 
