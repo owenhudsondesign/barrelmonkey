@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 const TABS = [
   { value: 'fermentation', label: 'Fermentation' },
   { value: 'distillation', label: 'Distillation' },
+  { value: 'rackhouses', label: 'Rackhouses' },
+  { value: 'fermenters', label: 'Fermenters' },
 ] as const
 
 export type ProductionTab = (typeof TABS)[number]['value']

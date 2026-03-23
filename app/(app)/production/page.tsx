@@ -2,6 +2,8 @@ import { Suspense } from 'react'
 import { ProductionTabs } from '@/components/production/production-tabs'
 import { FermentationList } from '@/components/production/fermentation-list'
 import { DistillationList } from '@/components/production/distillation-list'
+import { RackhouseList } from '@/components/production/rackhouse-list'
+import { FermenterList } from '@/components/production/fermenter-list'
 
 export const metadata = {
   title: 'Production — BarrelMonkey',
@@ -20,7 +22,7 @@ export default async function ProductionPage({
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white">Production</h1>
         <p className="text-sm text-white/40 mt-1">
-          Fermentation and distillation runs
+          Fermentation, distillation, rackhouses, and fermenters
         </p>
       </div>
 
@@ -29,6 +31,8 @@ export default async function ProductionPage({
       <Suspense fallback={<ListSkeleton />}>
         {tab === 'fermentation' && <FermentationList />}
         {tab === 'distillation' && <DistillationList />}
+        {tab === 'rackhouses' && <RackhouseList />}
+        {tab === 'fermenters' && <FermenterList />}
       </Suspense>
     </div>
   )
