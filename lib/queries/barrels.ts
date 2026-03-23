@@ -8,7 +8,10 @@ export interface BarrelListParams {
   search?: string
   sortBy?: string
   sortDir?: 'asc' | 'desc'
+  page?: number
 }
+
+const PAGE_SIZE = 50
 
 export interface BarrelListRow {
   id: string
@@ -121,13 +124,16 @@ export async function getBarrelList(params: BarrelListParams) {
   const sortCol = params.sortBy ?? 'fill_date'
   const sortAsc = params.sortDir !== 'desc'
 
-  const { data, error, count } = await query.order(sortCol, {
-    ascending: sortAsc,
-    nullsFirst: false,
-  })
+  const page = params.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
+
+  const { data, error, count } = await query
+    .order(sortCol, { ascending: sortAsc, nullsFirst: false })
+    .range(from, to)
 
   if (error) throw error
-  return { barrels: (data ?? []) as unknown as BarrelListRow[], total: count ?? 0 }
+  return { barrels: (data ?? []) as unknown as BarrelListRow[], total: count ?? 0, page, pageSize: PAGE_SIZE }
 }
 
 export async function getBarrelById(id: string) {

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getRecentActivity } from '@/lib/queries/log'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDateTime, formatProofGallons } from '@/lib/utils/format'
 
 const EVENT_BADGE_STYLES: Record<string, { bg: string; text: string }> = {
@@ -41,11 +42,13 @@ interface ActivityFeedProps {
 
 export async function ActivityFeed({ searchParams }: ActivityFeedProps) {
   const eventType = searchParams.eventType ?? undefined
-  const entries = await getRecentActivity({ eventType })
+  const page = Number(searchParams.page) || 1
+  const { entries, total, pageSize } = await getRecentActivity({ eventType, page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
-      <div className="text-xs text-white/30 mb-3">{entries.length} events</div>
+      <div className="text-xs text-white/30 mb-3">{total} events</div>
 
       <div className="rounded-lg border border-white/10 overflow-hidden">
         <table className="w-full text-sm">
@@ -113,6 +116,15 @@ export async function ActivityFeed({ searchParams }: ActivityFeedProps) {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/log"
+        />
+      )}
     </div>
   )
 }

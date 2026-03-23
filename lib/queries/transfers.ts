@@ -1,9 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import type { SpiritType, TibDirection } from '@/lib/types/database'
 
+const PAGE_SIZE = 50
+
 export interface TibListParams {
   direction?: TibDirection
   sortDir?: 'asc' | 'desc'
+  page?: number
 }
 
 export interface TibRecordListRow {
@@ -66,12 +69,17 @@ export async function getTibRecords(params: TibListParams) {
     query = query.eq('direction', params.direction)
   }
 
+  const page = params.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
+
   const { data, error, count } = await query
     .order('transfer_date', { ascending: params.sortDir !== 'desc' })
+    .range(from, to)
     .returns<TibRecordListRow[]>()
 
   if (error) throw error
-  return { records: data ?? [], total: count ?? 0 }
+  return { records: data ?? [], total: count ?? 0, page, pageSize: PAGE_SIZE }
 }
 
 export async function getTibRecordById(id: string) {

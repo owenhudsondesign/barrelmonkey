@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import type { BarrelEventType, TankEventType } from '@/lib/types/database'
 
+const PAGE_SIZE = 50
+
 export interface ActivityEntry {
   id: string
   source_type: 'barrel' | 'tank'
@@ -40,31 +42,38 @@ interface TankEventRow {
 interface GetRecentActivityParams {
   eventType?: string
   limit?: number
+  page?: number
 }
 
 export async function getRecentActivity(
   params: GetRecentActivityParams = {}
-): Promise<ReadonlyArray<ActivityEntry>> {
-  const { eventType, limit = 50 } = params
+): Promise<{ entries: ReadonlyArray<ActivityEntry>; total: number; page: number; pageSize: number }> {
+  const { eventType, page: requestedPage = 1 } = params
   const supabase = await createClient()
+
+  // We need enough rows from each source to fill the requested page of the merged result.
+  // Fetch (page * PAGE_SIZE) from each so the merge can produce accurate results up to that page.
+  const fetchLimit = requestedPage * PAGE_SIZE
 
   let barrelQuery = supabase
     .from('barrel_events')
     .select(
       `id, barrel_id, event_type, event_date, proof_gal, notes, logged_by,
-       barrel:barrels(barrel_number)`
+       barrel:barrels(barrel_number)`,
+      { count: 'exact' }
     )
     .order('event_date', { ascending: false })
-    .limit(limit)
+    .limit(fetchLimit)
 
   let tankQuery = supabase
     .from('tank_events')
     .select(
       `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, proof_gal_delta, notes, logged_by,
-       tank:tanks(name)`
+       tank:tanks(name)`,
+      { count: 'exact' }
     )
     .order('event_date', { ascending: false })
-    .limit(limit)
+    .limit(fetchLimit)
 
   if (eventType) {
     barrelQuery = barrelQuery.eq('event_type', eventType)
@@ -136,5 +145,9 @@ export async function getRecentActivity(
     (a, b) => new Date(b.event_date).getTime() - new Date(a.event_date).getTime()
   )
 
-  return merged.slice(0, limit)
+  const totalCount = (barrelResult.count ?? 0) + (tankResult.count ?? 0)
+  const from = (requestedPage - 1) * PAGE_SIZE
+  const pageSlice = merged.slice(from, from + PAGE_SIZE)
+
+  return { entries: pageSlice, total: totalCount, page: requestedPage, pageSize: PAGE_SIZE }
 }

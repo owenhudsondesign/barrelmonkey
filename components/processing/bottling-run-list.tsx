@@ -1,9 +1,16 @@
 import { getBottlingRuns } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
-export async function BottlingRunList() {
-  const { runs, total } = await getBottlingRuns({ sortDir: 'desc' })
+interface BottlingRunListProps {
+  readonly searchParams: Record<string, string | undefined>
+}
+
+export async function BottlingRunList({ searchParams }: BottlingRunListProps) {
+  const page = Number(searchParams.page) || 1
+  const { runs, total, pageSize } = await getBottlingRuns({ sortDir: 'desc', page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -53,6 +60,15 @@ export async function BottlingRunList() {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/processing"
+        />
+      )}
     </div>
   )
 }

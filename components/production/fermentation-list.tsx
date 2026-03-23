@@ -1,5 +1,6 @@
 import { getFermentationBatches } from '@/lib/queries/production'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatGallons } from '@/lib/utils/format'
 import type { FermentationStatus } from '@/lib/types/database'
 
@@ -9,8 +10,14 @@ const STATUS_STYLES: Record<FermentationStatus, string> = {
   scrapped: 'bg-red-500/10 text-red-400 border-red-500/20',
 }
 
-export async function FermentationList() {
-  const { batches, total } = await getFermentationBatches()
+interface FermentationListProps {
+  readonly searchParams: Record<string, string | undefined>
+}
+
+export async function FermentationList({ searchParams }: FermentationListProps) {
+  const page = Number(searchParams.page) || 1
+  const { batches, total, pageSize } = await getFermentationBatches({ page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -60,6 +67,15 @@ export async function FermentationList() {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/production"
+        />
+      )}
     </div>
   )
 }

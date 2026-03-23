@@ -1,9 +1,16 @@
 import { getDumpBatches } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
-export async function DumpBatchList() {
-  const { batches, total } = await getDumpBatches({ sortDir: 'desc' })
+interface DumpBatchListProps {
+  readonly searchParams: Record<string, string | undefined>
+}
+
+export async function DumpBatchList({ searchParams }: DumpBatchListProps) {
+  const page = Number(searchParams.page) || 1
+  const { batches, total, pageSize } = await getDumpBatches({ sortDir: 'desc', page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -55,6 +62,15 @@ export async function DumpBatchList() {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/processing"
+        />
+      )}
     </div>
   )
 }

@@ -28,9 +28,9 @@ export default async function ProcessingPage({
       <ProcessingTabs />
 
       <Suspense fallback={<ListSkeleton />}>
-        {tab === 'dumps' && <DumpBatchList />}
-        {tab === 'batching' && <BatchingRunList />}
-        {tab === 'bottling' && <BottlingRunList />}
+        {tab === 'dumps' && <DumpBatchList searchParams={params} />}
+        {tab === 'batching' && <BatchingRunList searchParams={params} />}
+        {tab === 'bottling' && <BottlingRunList searchParams={params} />}
       </Suspense>
     </div>
   )

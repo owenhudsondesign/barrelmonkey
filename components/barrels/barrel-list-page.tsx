@@ -4,6 +4,7 @@ import { StatusBadge } from '@/components/ui/status-badge'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { BarrelFilters } from './barrel-filters'
 import { CsvExportButton } from './csv-export-button'
+import { Pagination } from '@/components/ui/pagination'
 import { computeAge, formatDate, formatProof, formatGallons, formatProofGallons } from '@/lib/utils/format'
 import type { BarrelStatus, SpiritType } from '@/lib/types/database'
 
@@ -12,6 +13,8 @@ interface BarrelListPageProps {
 }
 
 export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
+  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 1
+
   const params: BarrelListParams = {
     status: (searchParams.status as BarrelStatus | 'all') || undefined,
     spiritType: (searchParams.spiritType as SpiritType) || undefined,
@@ -19,9 +22,10 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
     search: searchParams.search || undefined,
     sortBy: searchParams.sortBy || 'fill_date',
     sortDir: (searchParams.sortDir as 'asc' | 'desc') || 'asc',
+    page: currentPage,
   }
 
-  const [{ barrels, total }, rackhouses] = await Promise.all([
+  const [{ barrels, total, pageSize }, rackhouses] = await Promise.all([
     getBarrelList(params),
     getRackhouses(),
   ])
@@ -160,6 +164,16 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {total > pageSize && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(total / pageSize)}
+          searchParams={searchParams}
+          basePath="/barrels"
+        />
+      )}
     </div>
   )
 }

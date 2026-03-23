@@ -29,8 +29,8 @@ export default async function ProductionPage({
       <ProductionTabs />
 
       <Suspense fallback={<ListSkeleton />}>
-        {tab === 'fermentation' && <FermentationList />}
-        {tab === 'distillation' && <DistillationList />}
+        {tab === 'fermentation' && <FermentationList searchParams={params} />}
+        {tab === 'distillation' && <DistillationList searchParams={params} />}
         {tab === 'rackhouses' && <RackhouseList />}
         {tab === 'fermenters' && <FermenterList />}
       </Suspense>

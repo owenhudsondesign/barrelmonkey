@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getTibRecords, type TibListParams } from '@/lib/queries/transfers'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 import type { TibDirection } from '@/lib/types/database'
 
@@ -9,12 +10,15 @@ interface TibListProps {
 }
 
 export async function TibList({ searchParams }: TibListProps) {
+  const page = Number(searchParams.page) || 1
   const params: TibListParams = {
     direction: (searchParams.direction as TibDirection) || undefined,
     sortDir: 'desc',
+    page,
   }
 
-  const { records, total } = await getTibRecords(params)
+  const { records, total, pageSize } = await getTibRecords(params)
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -79,6 +83,15 @@ export async function TibList({ searchParams }: TibListProps) {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/transfers"
+        />
+      )}
     </div>
   )
 }

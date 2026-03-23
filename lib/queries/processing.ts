@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import type { SpiritType } from '@/lib/types/database'
 
+const PAGE_SIZE = 50
+
 export interface DumpBatchListRow {
   id: string
   dump_date: string
@@ -41,8 +43,12 @@ export interface BottlingRunListRow {
   source_tank: { name: string } | null
 }
 
-export async function getDumpBatches(params: { sortDir?: 'asc' | 'desc' }) {
+export async function getDumpBatches(params: { sortDir?: 'asc' | 'desc'; page?: number }) {
   const supabase = await createClient()
+
+  const page = params.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
 
   const { data, error, count } = await supabase
     .from('dump_batches')
@@ -53,14 +59,19 @@ export async function getDumpBatches(params: { sortDir?: 'asc' | 'desc' }) {
       { count: 'exact' }
     )
     .order('dump_date', { ascending: params.sortDir !== 'desc' })
+    .range(from, to)
     .returns<DumpBatchListRow[]>()
 
   if (error) throw error
-  return { batches: data ?? [], total: count ?? 0 }
+  return { batches: data ?? [], total: count ?? 0, page, pageSize: PAGE_SIZE }
 }
 
-export async function getBatchingRuns(params: { sortDir?: 'asc' | 'desc' }) {
+export async function getBatchingRuns(params: { sortDir?: 'asc' | 'desc'; page?: number }) {
   const supabase = await createClient()
+
+  const page = params.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
 
   const { data, error, count } = await supabase
     .from('batching_runs')
@@ -71,14 +82,19 @@ export async function getBatchingRuns(params: { sortDir?: 'asc' | 'desc' }) {
       { count: 'exact' }
     )
     .order('batch_date', { ascending: params.sortDir !== 'desc' })
+    .range(from, to)
     .returns<BatchingRunListRow[]>()
 
   if (error) throw error
-  return { runs: data ?? [], total: count ?? 0 }
+  return { runs: data ?? [], total: count ?? 0, page, pageSize: PAGE_SIZE }
 }
 
-export async function getBottlingRuns(params: { sortDir?: 'asc' | 'desc' }) {
+export async function getBottlingRuns(params: { sortDir?: 'asc' | 'desc'; page?: number }) {
   const supabase = await createClient()
+
+  const page = params.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
 
   const { data, error, count } = await supabase
     .from('bottling_runs')
@@ -89,8 +105,9 @@ export async function getBottlingRuns(params: { sortDir?: 'asc' | 'desc' }) {
       { count: 'exact' }
     )
     .order('bottle_date', { ascending: params.sortDir !== 'desc' })
+    .range(from, to)
     .returns<BottlingRunListRow[]>()
 
   if (error) throw error
-  return { runs: data ?? [], total: count ?? 0 }
+  return { runs: data ?? [], total: count ?? 0, page, pageSize: PAGE_SIZE }
 }

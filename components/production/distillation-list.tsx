@@ -1,9 +1,16 @@
 import { getDistillationRuns } from '@/lib/queries/production'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
-export async function DistillationList() {
-  const { runs, total } = await getDistillationRuns()
+interface DistillationListProps {
+  readonly searchParams: Record<string, string | undefined>
+}
+
+export async function DistillationList({ searchParams }: DistillationListProps) {
+  const page = Number(searchParams.page) || 1
+  const { runs, total, pageSize } = await getDistillationRuns({ page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -47,6 +54,15 @@ export async function DistillationList() {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/production"
+        />
+      )}
     </div>
   )
 }

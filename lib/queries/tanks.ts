@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import type { TankEventType } from '@/lib/types/database'
 
+const PAGE_SIZE = 50
+
 export interface TankListRow {
   id: string
   name: string
@@ -32,10 +34,15 @@ interface TankLatestEventRow {
 interface TankFilters {
   category?: string
   active?: string
+  page?: number
 }
 
 export async function getTanks(filters: TankFilters) {
   const supabase = await createClient()
+
+  const page = filters.page ?? 1
+  const from = (page - 1) * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
 
   // Fetch tanks
   let tankQuery = supabase
@@ -51,12 +58,14 @@ export async function getTanks(filters: TankFilters) {
     tankQuery = tankQuery.eq('active', filters.active === 'true')
   }
 
-  const { data: tanks, error: tanksError, count } = await tankQuery.returns<TankRow[]>()
+  const { data: tanks, error: tanksError, count } = await tankQuery
+    .range(from, to)
+    .returns<TankRow[]>()
 
   if (tanksError) throw tanksError
 
   if (!tanks || tanks.length === 0) {
-    return { tanks: [] as TankListRow[], total: 0 }
+    return { tanks: [] as TankListRow[], total: 0, page, pageSize: PAGE_SIZE }
   }
 
   // Fetch latest event per tank
@@ -91,7 +100,7 @@ export async function getTanks(filters: TankFilters) {
     }
   })
 
-  return { tanks: rows, total: count ?? 0 }
+  return { tanks: rows, total: count ?? 0, page, pageSize: PAGE_SIZE }
 }
 
 export interface TankDetail {

@@ -1,9 +1,16 @@
 import { getBatchingRuns } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
-export async function BatchingRunList() {
-  const { runs, total } = await getBatchingRuns({ sortDir: 'desc' })
+interface BatchingRunListProps {
+  readonly searchParams: Record<string, string | undefined>
+}
+
+export async function BatchingRunList({ searchParams }: BatchingRunListProps) {
+  const page = Number(searchParams.page) || 1
+  const { runs, total, pageSize } = await getBatchingRuns({ sortDir: 'desc', page })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -51,6 +58,15 @@ export async function BatchingRunList() {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/processing"
+        />
+      )}
     </div>
   )
 }

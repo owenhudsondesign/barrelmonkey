@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTanks } from '@/lib/queries/tanks'
+import { Pagination } from '@/components/ui/pagination'
 import { formatDate, formatGallons } from '@/lib/utils/format'
 
 const CATEGORY_BADGE_COLORS: Record<string, string> = {
@@ -14,10 +15,13 @@ interface TankListProps {
 }
 
 export async function TankList({ searchParams }: TankListProps) {
-  const { tanks, total } = await getTanks({
+  const page = Number(searchParams.page) || 1
+  const { tanks, total, pageSize } = await getTanks({
     category: searchParams.category,
     active: searchParams.active,
+    page,
   })
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div>
@@ -100,6 +104,15 @@ export async function TankList({ searchParams }: TankListProps) {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={searchParams}
+          basePath="/tanks"
+        />
+      )}
     </div>
   )
 }
