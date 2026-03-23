@@ -41,7 +41,7 @@ export async function ImportHistory() {
                   )}
                 </td>
                 <td className="px-4 py-3 text-white/60 text-xs">
-                  {row.imported_by_user?.full_name ?? '—'}
+                  {row.imported_by_name ?? '—'}
                 </td>
                 <td className="px-4 py-3 text-white/60 text-xs">
                   {formatDateTime(row.created_at)}
