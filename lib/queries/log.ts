@@ -20,8 +20,8 @@ interface BarrelEventRow {
   event_date: string
   proof_gal: number | null
   notes: string | null
+  logged_by: string | null
   barrel: { barrel_number: string } | null
-  logged_by_user: { full_name: string } | null
 }
 
 interface TankEventRow {
@@ -32,8 +32,8 @@ interface TankEventRow {
   proof_gal_start: number | null
   proof_gal_end: number | null
   notes: string | null
+  logged_by: string | null
   tank: { name: string } | null
-  logged_by_user: { full_name: string } | null
 }
 
 interface GetRecentActivityParams {
@@ -50,9 +50,8 @@ export async function getRecentActivity(
   let barrelQuery = supabase
     .from('barrel_events')
     .select(
-      `id, barrel_id, event_type, event_date, proof_gal, notes,
-       barrel:barrels(barrel_number),
-       logged_by_user:users!barrel_events_logged_by_fkey(full_name)`
+      `id, barrel_id, event_type, event_date, proof_gal, notes, logged_by,
+       barrel:barrels(barrel_number)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)
@@ -60,9 +59,8 @@ export async function getRecentActivity(
   let tankQuery = supabase
     .from('tank_events')
     .select(
-      `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, notes,
-       tank:tanks(name),
-       logged_by_user:users!tank_events_logged_by_fkey(full_name)`
+      `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, notes, logged_by,
+       tank:tanks(name)`
     )
     .order('event_date', { ascending: false })
     .limit(limit)
@@ -86,6 +84,27 @@ export async function getRecentActivity(
     return []
   }
 
+  // Collect unique user IDs to fetch names in one query
+  const userIds = new Set<string>()
+  for (const row of barrelResult.data ?? []) {
+    if (row.logged_by) userIds.add(row.logged_by)
+  }
+  for (const row of tankResult.data ?? []) {
+    if (row.logged_by) userIds.add(row.logged_by)
+  }
+
+  const userMap = new Map<string, string>()
+  if (userIds.size > 0) {
+    const { data: users } = await supabase
+      .from('users')
+      .select('id, full_name')
+      .in('id', Array.from(userIds))
+      .returns<Array<{ id: string; full_name: string }>>()
+    for (const u of users ?? []) {
+      userMap.set(u.id, u.full_name)
+    }
+  }
+
   const barrelEntries: ReadonlyArray<ActivityEntry> = (barrelResult.data ?? []).map(
     (row) => ({
       id: row.id,
@@ -96,7 +115,7 @@ export async function getRecentActivity(
       event_date: row.event_date,
       proof_gal: row.proof_gal,
       notes: row.notes,
-      logged_by_name: row.logged_by_user?.full_name ?? null,
+      logged_by_name: row.logged_by ? (userMap.get(row.logged_by) ?? null) : null,
     })
   )
 
@@ -110,7 +129,7 @@ export async function getRecentActivity(
       event_date: row.event_date,
       proof_gal: row.proof_gal_end ?? row.proof_gal_start,
       notes: row.notes,
-      logged_by_name: row.logged_by_user?.full_name ?? null,
+      logged_by_name: row.logged_by ? (userMap.get(row.logged_by) ?? null) : null,
     })
   )
 
