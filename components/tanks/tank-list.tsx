@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getTanks } from '@/lib/queries/tanks'
 import { formatDate, formatGallons } from '@/lib/utils/format'
 
@@ -41,7 +42,14 @@ export async function TankList({ searchParams }: TankListProps) {
                 key={tank.id}
                 className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors"
               >
-                <td className="px-4 py-3 text-white/80 font-medium">{tank.name}</td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/tanks/${tank.id}`}
+                    className="text-white/80 hover:text-accent font-medium transition-colors"
+                  >
+                    {tank.name}
+                  </Link>
+                </td>
                 <td className="px-4 py-3 text-white/60 font-mono">
                   {formatGallons(tank.capacity_gal)}
                 </td>

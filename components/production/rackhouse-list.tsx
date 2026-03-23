@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getRackhouses } from '@/lib/queries/rackhouses'
 
 const STATUS_STYLES = {
@@ -31,7 +32,14 @@ export async function RackhouseList() {
                   key={rh.id}
                   className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors"
                 >
-                  <td className="px-4 py-3 text-white/80 font-medium">{rh.name}</td>
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/production/rackhouses/${rh.id}`}
+                      className="text-white/80 hover:text-accent font-medium transition-colors"
+                    >
+                      {rh.name}
+                    </Link>
+                  </td>
                   <td className="px-4 py-3 text-white/60">
                     {rh.is_offsite ? 'Offsite' : 'Onsite'}
                   </td>

@@ -23,7 +23,7 @@ interface TankRow {
   notes: string | null
 }
 
-interface TankEventRow {
+interface TankLatestEventRow {
   tank_id: string
   event_date: string
   event_type: TankEventType
@@ -66,7 +66,7 @@ export async function getTanks(filters: TankFilters) {
     .select('tank_id, event_date, event_type')
     .in('tank_id', tankIds)
     .order('event_date', { ascending: false })
-    .returns<TankEventRow[]>()
+    .returns<TankLatestEventRow[]>()
 
   if (eventsError) throw eventsError
 
@@ -92,4 +92,56 @@ export async function getTanks(filters: TankFilters) {
   })
 
   return { tanks: rows, total: count ?? 0 }
+}
+
+export interface TankDetail {
+  id: string
+  name: string
+  capacity_gal: number | null
+  can_ferment: boolean
+  tank_category: 'production' | 'processing' | 'extract' | 'misc'
+  active: boolean
+  notes: string | null
+}
+
+export interface TankEventRow {
+  id: string
+  event_type: TankEventType
+  event_date: string
+  proof_gal_start: number | null
+  proof_gal_end: number | null
+  proof_gal_delta: number | null
+  wine_gal: number | null
+  proof: number | null
+  from_tank_id: string | null
+  to_tank_id: string | null
+  notes: string | null
+}
+
+export async function getTankDetail(id: string): Promise<{
+  tank: TankDetail
+  events: readonly TankEventRow[]
+} | null> {
+  const supabase = await createClient()
+
+  const { data: tank, error: tankError } = await supabase
+    .from('tanks')
+    .select('id, name, capacity_gal, can_ferment, tank_category, active, notes')
+    .eq('id', id)
+    .single()
+    .returns<TankDetail>()
+
+  if (tankError || !tank) return null
+
+  const { data: events, error: eventsError } = await supabase
+    .from('tank_events')
+    .select('id, event_type, event_date, proof_gal_start, proof_gal_end, proof_gal_delta, wine_gal, proof, from_tank_id, to_tank_id, notes')
+    .eq('tank_id', id)
+    .order('event_date', { ascending: false })
+    .limit(50)
+    .returns<TankEventRow[]>()
+
+  if (eventsError) throw eventsError
+
+  return { tank, events: events ?? [] }
 }

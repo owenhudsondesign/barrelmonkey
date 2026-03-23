@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getFermenters } from '@/lib/queries/fermenters'
 import { formatGallons } from '@/lib/utils/format'
 
@@ -24,7 +25,14 @@ export async function FermenterList() {
                 key={fm.id}
                 className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors"
               >
-                <td className="px-4 py-3 text-white/80 font-medium">{fm.name}</td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/production/fermenters/${fm.id}`}
+                    className="text-white/80 hover:text-accent font-medium transition-colors"
+                  >
+                    {fm.name}
+                  </Link>
+                </td>
                 <td className="px-4 py-3 text-white/60 font-mono">
                   {formatGallons(fm.capacity_gal)}
                 </td>
