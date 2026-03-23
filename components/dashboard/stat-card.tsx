@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 type StatCardColor = 'accent' | 'success' | 'warning' | 'error' | 'default'
 
 interface StatCardProps {
@@ -5,6 +7,7 @@ interface StatCardProps {
   readonly value: string | number
   readonly subtitle?: string
   readonly color?: StatCardColor
+  readonly href?: string
 }
 
 const colorClasses: Record<StatCardColor, string> = {
@@ -15,14 +18,31 @@ const colorClasses: Record<StatCardColor, string> = {
   default: 'text-white',
 }
 
-export function StatCard({ label, value, subtitle, color = 'default' }: StatCardProps) {
-  return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+export function StatCard({ label, value, subtitle, color = 'default', href }: StatCardProps) {
+  const content = (
+    <>
       <div className="text-[10px] text-white/30 uppercase tracking-wider">{label}</div>
       <div className={`text-2xl font-bold mt-1 ${colorClasses[color]}`}>{value}</div>
       {subtitle ? (
         <div className="text-xs text-white/30 mt-1">{subtitle}</div>
       ) : null}
+    </>
+  )
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="rounded-lg border border-white/10 bg-white/[0.02] p-5 transition-colors hover:bg-white/[0.05] hover:border-white/20"
+      >
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <div className="rounded-lg border border-white/10 bg-white/[0.02] p-5">
+      {content}
     </div>
   )
 }
