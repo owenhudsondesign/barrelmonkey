@@ -22,7 +22,7 @@ export async function FermentationList() {
             <tr className="border-b border-white/[0.08] text-left text-xs text-white/40">
               <th className="px-4 py-3 font-medium">Batch #</th>
               <th className="px-4 py-3 font-medium">Cook #</th>
-              <th className="px-4 py-3 font-medium">Lot</th>
+              <th className="px-4 py-3 font-medium">Mash Bill</th>
               <th className="px-4 py-3 font-medium">Spirit</th>
               <th className="px-4 py-3 font-medium">Fermenter</th>
               <th className="px-4 py-3 font-medium">Start Date</th>
@@ -38,7 +38,7 @@ export async function FermentationList() {
               >
                 <td className="px-4 py-3 text-white/80 font-medium">{batch.batch_number}</td>
                 <td className="px-4 py-3 text-white/60">{batch.cook_number ?? '—'}</td>
-                <td className="px-4 py-3 text-white/60 max-w-[150px] truncate">{batch.internal_lot_name ?? batch.lot_name ?? '—'}</td>
+                <td className="px-4 py-3 text-white/60 max-w-[200px] truncate">{batch.mash_bill ?? '—'}</td>
                 <td className="px-4 py-3"><SpiritBadge type={batch.spirit_type} /></td>
                 <td className="px-4 py-3 text-white/60">{batch.fermenter?.name ?? '—'}</td>
                 <td className="px-4 py-3 text-white/60">{formatDate(batch.start_date)}</td>

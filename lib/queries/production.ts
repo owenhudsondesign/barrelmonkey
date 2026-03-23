@@ -5,8 +5,7 @@ export interface FermentationBatchListRow {
   id: string
   batch_number: string
   cook_number: number | null
-  lot_name: string | null
-  internal_lot_name: string | null
+  mash_bill: string | null
   spirit_type: SpiritType
   volume_gal: number | null
   start_date: string
@@ -31,7 +30,7 @@ export async function getFermentationBatches() {
   const { data, error, count } = await supabase
     .from('fermentation_batches')
     .select(
-      `id, batch_number, cook_number, lot_name, internal_lot_name, spirit_type,
+      `id, batch_number, cook_number, mash_bill, spirit_type,
        volume_gal, start_date, status,
        fermenter:fermenters(name)`,
       { count: 'exact' }
