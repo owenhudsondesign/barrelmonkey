@@ -8,7 +8,7 @@ export async function UserList() {
     <div>
       <div className="text-xs text-white/30 mb-3">{users.length} users</div>
 
-      <div className="rounded-lg border border-white/10 overflow-hidden">
+      <div className="rounded-lg border border-white/10 overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.08] text-left text-xs text-white/40">

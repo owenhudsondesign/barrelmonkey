@@ -42,7 +42,7 @@ export async function DashboardContent() {
 
       {/* Recent Dumps */}
       <section>
-        <div className="rounded-lg border border-white/10 bg-white/[0.02] overflow-hidden">
+        <div className="rounded-lg border border-white/10 bg-white/[0.02] overflow-x-auto">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08]">
             <span className="text-xs text-white/30 uppercase tracking-wider">Recent Dumps</span>
             <Link

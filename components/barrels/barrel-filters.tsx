@@ -90,15 +90,15 @@ export function BarrelFilters({ rackhouses }: BarrelFiltersProps) {
       </div>
 
       {/* Filter row */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3">
         {/* Status pills */}
-        <div className="flex gap-1">
+        <div className="flex flex-wrap gap-1">
           {STATUSES.map(({ value, label }) => (
             <button
               key={value}
               onClick={() => updateParams({ status: value === 'aging' ? '' : value })}
               disabled={isSearching}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                 !isSearching && currentStatus === value
                   ? 'bg-accent/10 text-accent border-accent/30'
                   : 'text-white/40 border-white/10 hover:border-white/20 disabled:opacity-30'
@@ -113,7 +113,7 @@ export function BarrelFilters({ rackhouses }: BarrelFiltersProps) {
         <select
           value={currentSpirit}
           onChange={(e) => updateParams({ spiritType: e.target.value })}
-          className="bg-white/[0.03] border border-white/10 rounded-md px-2 py-1 text-xs text-white/60 focus:outline-none focus:border-accent/50"
+          className="bg-white/[0.03] border border-white/10 rounded-md px-3 py-1.5 text-xs text-white/60 focus:outline-none focus:border-accent/50"
         >
           <option value="">All spirits</option>
           {SPIRIT_TYPES.map((s) => (
@@ -127,7 +127,7 @@ export function BarrelFilters({ rackhouses }: BarrelFiltersProps) {
         <select
           value={currentRackhouse}
           onChange={(e) => updateParams({ rackhouse: e.target.value })}
-          className="bg-white/[0.03] border border-white/10 rounded-md px-2 py-1 text-xs text-white/60 focus:outline-none focus:border-accent/50"
+          className="bg-white/[0.03] border border-white/10 rounded-md px-3 py-1.5 text-xs text-white/60 focus:outline-none focus:border-accent/50"
         >
           <option value="">All rackhouses</option>
           {rackhouses.map((r) => (

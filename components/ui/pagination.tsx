@@ -21,7 +21,6 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
   const hasPrev = currentPage > 1
   const hasNext = currentPage < totalPages
 
-  // Show a window of pages around the current page
   const windowSize = 5
   const halfWindow = Math.floor(windowSize / 2)
   let startPage = Math.max(1, currentPage - halfWindow)
@@ -33,8 +32,10 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
     pages.push(i)
   }
 
+  const btnBase = 'min-h-[36px] min-w-[36px] flex items-center justify-center rounded text-xs transition-colors'
+
   return (
-    <div className="flex items-center justify-between mt-4 text-sm">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 text-sm">
       <div className="text-white/30 text-xs">
         Page {currentPage} of {totalPages}
       </div>
@@ -42,14 +43,14 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
         {hasPrev && (
           <Link
             href={pageUrl(currentPage - 1)}
-            className="px-3 py-1.5 rounded border border-white/10 text-white/50 hover:text-white hover:border-white/20 transition-colors text-xs"
+            className={`${btnBase} px-3 border border-white/10 text-white/50 hover:text-white hover:border-white/20`}
           >
             Prev
           </Link>
         )}
         {startPage > 1 && (
           <>
-            <Link href={pageUrl(1)} className="px-2.5 py-1.5 rounded text-white/40 hover:text-white transition-colors text-xs">1</Link>
+            <Link href={pageUrl(1)} className={`${btnBase} text-white/40 hover:text-white`}>1</Link>
             {startPage > 2 && <span className="text-white/20 px-1">...</span>}
           </>
         )}
@@ -57,7 +58,7 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
           <Link
             key={p}
             href={pageUrl(p)}
-            className={`px-2.5 py-1.5 rounded text-xs transition-colors ${
+            className={`${btnBase} ${
               p === currentPage
                 ? 'bg-accent/10 text-accent border border-accent/30'
                 : 'text-white/40 hover:text-white'
@@ -69,13 +70,13 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
         {endPage < totalPages && (
           <>
             {endPage < totalPages - 1 && <span className="text-white/20 px-1">...</span>}
-            <Link href={pageUrl(totalPages)} className="px-2.5 py-1.5 rounded text-white/40 hover:text-white transition-colors text-xs">{totalPages}</Link>
+            <Link href={pageUrl(totalPages)} className={`${btnBase} text-white/40 hover:text-white`}>{totalPages}</Link>
           </>
         )}
         {hasNext && (
           <Link
             href={pageUrl(currentPage + 1)}
-            className="px-3 py-1.5 rounded border border-white/10 text-white/50 hover:text-white hover:border-white/20 transition-colors text-xs"
+            className={`${btnBase} px-3 border border-white/10 text-white/50 hover:text-white hover:border-white/20`}
           >
             Next
           </Link>
