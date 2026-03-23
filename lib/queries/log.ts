@@ -31,6 +31,7 @@ interface TankEventRow {
   event_date: string
   proof_gal_start: number | null
   proof_gal_end: number | null
+  proof_gal_delta: number | null
   notes: string | null
   logged_by: string | null
   tank: { name: string } | null
@@ -59,7 +60,7 @@ export async function getRecentActivity(
   let tankQuery = supabase
     .from('tank_events')
     .select(
-      `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, notes, logged_by,
+      `id, tank_id, event_type, event_date, proof_gal_start, proof_gal_end, proof_gal_delta, notes, logged_by,
        tank:tanks(name)`
     )
     .order('event_date', { ascending: false })
@@ -77,11 +78,9 @@ export async function getRecentActivity(
 
   if (barrelResult.error) {
     console.error('Barrel events query error:', barrelResult.error.message)
-    return []
   }
   if (tankResult.error) {
     console.error('Tank events query error:', tankResult.error.message)
-    return []
   }
 
   // Collect unique user IDs to fetch names in one query
@@ -127,7 +126,7 @@ export async function getRecentActivity(
       source_label: row.tank?.name ?? 'Unknown',
       event_type: row.event_type,
       event_date: row.event_date,
-      proof_gal: row.proof_gal_end ?? row.proof_gal_start,
+      proof_gal: row.proof_gal_end ?? row.proof_gal_start ?? row.proof_gal_delta,
       notes: row.notes,
       logged_by_name: row.logged_by ? (userMap.get(row.logged_by) ?? null) : null,
     })
