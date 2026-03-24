@@ -29,7 +29,9 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
 
   const rackhouse = barrel.rackhouse
   const distRuns = barrel.barrel_distillation_runs ?? []
-  const age = computeAge(barrel.fill_date, barrel.spirit_age_date)
+  const spiritAge = computeAge(barrel.fill_date, barrel.spirit_age_date)
+  const barrelAge = computeAge(barrel.fill_date)
+  const agesDiffer = barrel.spirit_age_date && barrel.spirit_age_date !== barrel.fill_date
 
   // Find latest proof reading for current status
   const latestProofReading = [...(barrel.events ?? [])]
@@ -60,7 +62,12 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
             <SpiritBadge type={barrel.spirit_type} />
           </div>
           <div className="flex items-center gap-4 text-sm text-white/40">
-            {age.display !== '—' && <span>{age.display} old</span>}
+            {spiritAge.display !== '—' && (
+              <span>
+                {spiritAge.display} old
+                {agesDiffer && <span className="text-white/25"> ({barrelAge.display} in barrel)</span>}
+              </span>
+            )}
             {rackhouse && (
               <span>
                 {rackhouse.name}

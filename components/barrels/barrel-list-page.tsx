@@ -90,7 +90,8 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
               <th className="text-left px-4 py-3 font-medium">
                 <SortHeader column="fill_date">Fill Date</SortHeader>
               </th>
-              <th className="text-left px-4 py-3 font-medium">Age</th>
+              <th className="text-left px-4 py-3 font-medium">Spirit Age</th>
+              <th className="text-left px-4 py-3 font-medium">In Barrel</th>
               <th className="text-left px-4 py-3 font-medium">
                 <SortHeader column="entry_pf">Entry PF</SortHeader>
               </th>
@@ -106,7 +107,7 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
           <tbody className="divide-y divide-white/[0.06]">
             {barrels.length === 0 ? (
               <tr>
-                <td colSpan={11} className="px-4 py-12 text-center text-white/30">
+                <td colSpan={12} className="px-4 py-12 text-center text-white/30">
                   {params.search
                     ? `No barrels matching "${params.search}"`
                     : 'No barrels found'}
@@ -115,7 +116,9 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
             ) : (
               barrels.map((barrel) => {
                 const rackhouse = barrel.rackhouse
-                const age = computeAge(barrel.fill_date, barrel.spirit_age_date)
+                const spiritAge = computeAge(barrel.fill_date, barrel.spirit_age_date)
+                const barrelAge = computeAge(barrel.fill_date)
+                const agesDiffer = barrel.spirit_age_date && barrel.spirit_age_date !== barrel.fill_date
                 return (
                   <tr
                     key={barrel.id}
@@ -138,7 +141,8 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
                     <td className="px-4 py-3 text-white/60">
                       {formatDate(barrel.fill_date)}
                     </td>
-                    <td className="px-4 py-3 text-white/60">{age.display}</td>
+                    <td className="px-4 py-3 text-white/60">{spiritAge.display}</td>
+                    <td className="px-4 py-3 text-white/60">{agesDiffer ? barrelAge.display : '—'}</td>
                     <td className="px-4 py-3 text-white/60">
                       {formatProof(barrel.entry_pf)}
                     </td>
