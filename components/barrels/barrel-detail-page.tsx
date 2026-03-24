@@ -29,7 +29,7 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
 
   const rackhouse = barrel.rackhouse
   const distRuns = barrel.barrel_distillation_runs ?? []
-  const age = computeAge(barrel.fill_date)
+  const age = computeAge(barrel.fill_date, barrel.spirit_age_date)
 
   // Find latest proof reading for current status
   const latestProofReading = [...(barrel.events ?? [])]

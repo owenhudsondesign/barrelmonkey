@@ -20,6 +20,7 @@ export interface BarrelListRow {
   status: BarrelStatus
   size_gal: number | null
   fill_date: string | null
+  spirit_age_date: string | null
   entry_pf: number | null
   fill_proof_gal: number | null
   fill_wine_gal: number | null
@@ -42,6 +43,7 @@ export interface BarrelDetailRow {
   rackhouse_id: string | null
   slot: string | null
   fill_date: string | null
+  spirit_age_date: string | null
   entry_pf: number | null
   fill_proof_gal: number | null
   fill_wine_gal: number | null
@@ -98,7 +100,7 @@ export async function getBarrelList(params: BarrelListParams) {
     .from('barrels')
     .select(
       `id, barrel_number, spirit_type, status, size_gal,
-       fill_date, entry_pf, fill_proof_gal, fill_wine_gal,
+       fill_date, spirit_age_date, entry_pf, fill_proof_gal, fill_wine_gal,
        slot, notes,
        rackhouse:rackhouses(id, name)`,
       { count: 'exact' }

@@ -115,7 +115,7 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
             ) : (
               barrels.map((barrel) => {
                 const rackhouse = barrel.rackhouse
-                const age = computeAge(barrel.fill_date)
+                const age = computeAge(barrel.fill_date, barrel.spirit_age_date)
                 return (
                   <tr
                     key={barrel.id}

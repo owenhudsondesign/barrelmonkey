@@ -1,7 +1,8 @@
-export function computeAge(fillDate: string | null): { years: number; months: number; display: string } {
-  if (!fillDate) return { years: 0, months: 0, display: '—' }
+export function computeAge(fillDate: string | null, spiritAgeDate?: string | null): { years: number; months: number; display: string } {
+  const ageDate = spiritAgeDate ?? fillDate
+  if (!ageDate) return { years: 0, months: 0, display: '—' }
 
-  const fill = new Date(fillDate)
+  const fill = new Date(ageDate)
   const now = new Date()
   let years = now.getFullYear() - fill.getFullYear()
   let months = now.getMonth() - fill.getMonth()
