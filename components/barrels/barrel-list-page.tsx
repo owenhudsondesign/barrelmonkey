@@ -142,7 +142,7 @@ export async function BarrelListPage({ searchParams }: BarrelListPageProps) {
                       {formatDate(barrel.fill_date)}
                     </td>
                     <td className="px-4 py-3 text-white/60">{spiritAge.display}</td>
-                    <td className="px-4 py-3 text-white/60">{agesDiffer ? barrelAge.display : '—'}</td>
+                    <td className="px-4 py-3 text-white/60">{barrelAge.display}</td>
                     <td className="px-4 py-3 text-white/60">
                       {formatProof(barrel.entry_pf)}
                     </td>
