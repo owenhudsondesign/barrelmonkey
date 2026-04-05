@@ -4,6 +4,10 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { barrelsToCsv } from '@/lib/utils/csv'
 import { useSearchParams } from 'next/navigation'
+import type { Database } from '@/lib/types/supabase'
+
+type BarrelStatus = Database['public']['Enums']['barrel_status']
+type SpiritType = Database['public']['Enums']['spirit_type']
 
 export function CsvExportButton() {
   const [loading, setLoading] = useState(false)
@@ -27,12 +31,12 @@ export function CsvExportButton() {
       if (search) {
         query = query.ilike('barrel_number', `%${search}%`)
       } else if (status && status !== 'all') {
-        query = query.eq('status', status)
+        query = query.eq('status', status as BarrelStatus)
       } else if (!status) {
         query = query.eq('status', 'aging')
       }
 
-      if (spiritType) query = query.eq('spirit_type', spiritType)
+      if (spiritType) query = query.eq('spirit_type', spiritType as SpiritType)
       if (rackhouse) query = query.eq('rackhouse_id', rackhouse)
 
       const { data, error } = await query
