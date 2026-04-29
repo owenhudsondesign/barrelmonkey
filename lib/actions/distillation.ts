@@ -50,3 +50,64 @@ export async function createDistillationRun(
   revalidatePath('/production')
   redirect('/production?tab=distillation')
 }
+
+export async function updateDistillationRun(
+  _prev: FormActionResult,
+  formData: FormData
+): Promise<FormActionResult> {
+  const id = formData.get('id')
+  if (typeof id !== 'string' || !id) {
+    return { success: false, message: 'Missing run id.' }
+  }
+
+  const raw = Object.fromEntries(formData.entries())
+  const parsed = createDistillationRunSchema.safeParse(raw)
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+      message: 'Please fix the errors below.',
+    }
+  }
+
+  const data = parsed.data
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false, message: 'You must be logged in.' }
+
+  const { error } = await supabase
+    .from('distillation_runs')
+    .update({
+      run_number: data.run_number,
+      spirit_type: data.spirit_type,
+      still_name: data.still_name || null,
+      run_phase: data.run_phase || null,
+      run_date: data.run_date,
+      run_timestamp: data.run_date,
+      proof_gal: data.proof_gal,
+      lot_name: data.lot_name || null,
+      mash_bill: data.mash_bill || null,
+      notes: data.notes || null,
+    })
+    .eq('id', id)
+
+  if (error) return { success: false, message: error.message }
+
+  revalidatePath('/production')
+  redirect('/production?tab=distillation')
+}
+
+export async function deleteDistillationRun(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('You must be logged in.')
+
+  const { error } = await supabase
+    .from('distillation_runs')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id)
+
+  if (error) throw new Error(error.message)
+  revalidatePath('/production')
+}

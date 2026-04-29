@@ -177,7 +177,7 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
           </span>
         </h2>
         {barrel.events && barrel.events.length > 0 ? (
-          <BarrelTimeline events={barrel.events} provenance={provenance} />
+          <BarrelTimeline barrelId={barrelId} events={barrel.events} provenance={provenance} />
         ) : (
           <p className="text-white/30 text-sm py-8 text-center">No events recorded yet.</p>
         )}

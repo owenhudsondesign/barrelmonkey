@@ -54,3 +54,68 @@ export async function createBottlingRun(
   revalidatePath('/processing')
   redirect('/processing?tab=bottling')
 }
+
+export async function updateBottlingRun(
+  _prev: FormActionResult,
+  formData: FormData
+): Promise<FormActionResult> {
+  const id = formData.get('id')
+  if (typeof id !== 'string' || !id) {
+    return { success: false, message: 'Missing run id.' }
+  }
+
+  const raw = Object.fromEntries(formData.entries())
+  const parsed = createBottlingRunSchema.safeParse(raw)
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+      message: 'Please fix the errors below.',
+    }
+  }
+
+  const data = parsed.data
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false, message: 'You must be logged in.' }
+
+  const { error } = await supabase
+    .from('bottling_runs')
+    .update({
+      product_name: data.product_name,
+      spirit_type: data.spirit_type,
+      bottle_date: data.bottle_date,
+      bottling_number: data.bottling_number,
+      lot_name: data.lot_name || null,
+      cases_filled: data.cases_filled,
+      loose_bottles: data.loose_bottles ?? 0,
+      proof_gal_bottled: data.proof_gal_bottled,
+      wine_gal_bottled: data.wine_gal_bottled,
+      pack_format: data.pack_format || null,
+      bottle_size_ml: data.bottle_size_ml,
+      bottles_per_case: data.bottles_per_case,
+      source_tank_id: data.source_tank_id || null,
+      notes: data.notes || null,
+    })
+    .eq('id', id)
+
+  if (error) return { success: false, message: error.message }
+
+  revalidatePath('/processing')
+  redirect('/processing?tab=bottling')
+}
+
+export async function deleteBottlingRun(id: string): Promise<void> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('You must be logged in.')
+
+  const { error } = await supabase
+    .from('bottling_runs')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id)
+
+  if (error) throw new Error(error.message)
+  revalidatePath('/processing')
+}

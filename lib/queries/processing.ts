@@ -58,6 +58,7 @@ export async function getDumpBatches(params: { sortDir?: 'asc' | 'desc'; page?: 
        target_tank:tanks(name)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('dump_date', { ascending: params.sortDir !== 'desc' })
     .range(from, to)
     .returns<DumpBatchListRow[]>()
@@ -81,6 +82,7 @@ export async function getBatchingRuns(params: { sortDir?: 'asc' | 'desc'; page?:
        to_tank:tanks(name)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('batch_date', { ascending: params.sortDir !== 'desc' })
     .range(from, to)
     .returns<BatchingRunListRow[]>()
@@ -104,6 +106,7 @@ export async function getBottlingRuns(params: { sortDir?: 'asc' | 'desc'; page?:
        source_tank:tanks(name)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('bottle_date', { ascending: params.sortDir !== 'desc' })
     .range(from, to)
     .returns<BottlingRunListRow[]>()

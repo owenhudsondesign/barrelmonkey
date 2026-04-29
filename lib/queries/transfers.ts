@@ -64,6 +64,7 @@ export async function getTibRecords(params: TibListParams) {
        dsp_name, dsp_number, container_ct, total_pg, total_wg, form_5100_16`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
 
   if (params.direction) {
     query = query.eq('direction', params.direction)
@@ -92,6 +93,7 @@ export async function getTibRecordById(id: string) {
        tib_barrels(id, proof_gal, wine_gal, proof, barrel:barrels(id, barrel_number))`
     )
     .eq('id', id)
+    .is('deleted_at', null)
     .single()
 
   if (error) throw error

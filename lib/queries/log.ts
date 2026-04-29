@@ -62,6 +62,7 @@ export async function getRecentActivity(
        barrel:barrels(barrel_number)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('event_date', { ascending: false })
     .limit(fetchLimit)
 

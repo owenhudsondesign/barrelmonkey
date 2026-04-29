@@ -70,6 +70,7 @@ export type Database = {
           batching_run_id: string | null
           cooperage: string | null
           created_at: string
+          deleted_at: string | null
           dump_batch_id: string | null
           event_date: string
           event_type: Database["public"]["Enums"]["barrel_event_type"]
@@ -105,6 +106,7 @@ export type Database = {
           batching_run_id?: string | null
           cooperage?: string | null
           created_at?: string
+          deleted_at?: string | null
           dump_batch_id?: string | null
           event_date?: string
           event_type: Database["public"]["Enums"]["barrel_event_type"]
@@ -140,6 +142,7 @@ export type Database = {
           batching_run_id?: string | null
           cooperage?: string | null
           created_at?: string
+          deleted_at?: string | null
           dump_batch_id?: string | null
           event_date?: string
           event_type?: Database["public"]["Enums"]["barrel_event_type"]
@@ -507,6 +510,7 @@ export type Database = {
           batch_date: string
           batch_number: string
           created_at: string
+          deleted_at: string | null
           id: string
           logged_by: string
           notes: string | null
@@ -527,6 +531,7 @@ export type Database = {
           batch_date: string
           batch_number: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           logged_by: string
           notes?: string | null
@@ -547,6 +552,7 @@ export type Database = {
           batch_date?: string
           batch_number?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           logged_by?: string
           notes?: string | null
@@ -588,6 +594,7 @@ export type Database = {
           bottling_number: number | null
           cases_filled: number
           created_at: string
+          deleted_at: string | null
           end_cs_serial: string | null
           id: string
           labor_hours: number | null
@@ -620,6 +627,7 @@ export type Database = {
           bottling_number?: number | null
           cases_filled?: number
           created_at?: string
+          deleted_at?: string | null
           end_cs_serial?: string | null
           id?: string
           labor_hours?: number | null
@@ -652,6 +660,7 @@ export type Database = {
           bottling_number?: number | null
           cases_filled?: number
           created_at?: string
+          deleted_at?: string | null
           end_cs_serial?: string | null
           id?: string
           labor_hours?: number | null
@@ -747,6 +756,7 @@ export type Database = {
       distillation_runs: {
         Row: {
           created_at: string
+          deleted_at: string | null
           fermentation_batch_id: string | null
           id: string
           logged_by: string
@@ -778,6 +788,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           fermentation_batch_id?: string | null
           id?: string
           logged_by: string
@@ -809,6 +820,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           fermentation_batch_id?: string | null
           id?: string
           logged_by?: string
@@ -881,6 +893,7 @@ export type Database = {
           barrel_count: number
           blend_lot_name: string | null
           created_at: string | null
+          deleted_at: string | null
           dump_date: string
           dump_type: string | null
           id: string
@@ -898,6 +911,7 @@ export type Database = {
           barrel_count: number
           blend_lot_name?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           dump_date: string
           dump_type?: string | null
           id?: string
@@ -915,6 +929,7 @@ export type Database = {
           barrel_count?: number
           blend_lot_name?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           dump_date?: string
           dump_type?: string | null
           id?: string
@@ -944,6 +959,7 @@ export type Database = {
           bbl_size: number | null
           cook_number: number | null
           created_at: string
+          deleted_at: string | null
           dsp_number: string | null
           ending_sg: number | null
           fermenter_id: string
@@ -974,6 +990,7 @@ export type Database = {
           bbl_size?: number | null
           cook_number?: number | null
           created_at?: string
+          deleted_at?: string | null
           dsp_number?: string | null
           ending_sg?: number | null
           fermenter_id: string
@@ -1004,6 +1021,7 @@ export type Database = {
           bbl_size?: number | null
           cook_number?: number | null
           created_at?: string
+          deleted_at?: string | null
           dsp_number?: string | null
           ending_sg?: number | null
           fermenter_id?: string
@@ -1417,6 +1435,7 @@ export type Database = {
         Row: {
           container_ct: number | null
           created_at: string
+          deleted_at: string | null
           dest_account: string | null
           direction: Database["public"]["Enums"]["tib_direction"]
           dsp_name: string | null
@@ -1444,6 +1463,7 @@ export type Database = {
         Insert: {
           container_ct?: number | null
           created_at?: string
+          deleted_at?: string | null
           dest_account?: string | null
           direction: Database["public"]["Enums"]["tib_direction"]
           dsp_name?: string | null
@@ -1471,6 +1491,7 @@ export type Database = {
         Update: {
           container_ct?: number | null
           created_at?: string
+          deleted_at?: string | null
           dest_account?: string | null
           direction?: Database["public"]["Enums"]["tib_direction"]
           dsp_name?: string | null

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getTibRecords, type TibListParams } from '@/lib/queries/transfers'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteTibRecord } from '@/lib/actions/tib'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 import type { TibDirection } from '@/lib/types/database'
 
@@ -36,6 +38,7 @@ export async function TibList({ searchParams }: TibListProps) {
               <th className="px-4 py-3 font-medium">DSP</th>
               <th className="px-4 py-3 font-medium">Containers</th>
               <th className="px-4 py-3 font-medium">Total PG</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -71,11 +74,18 @@ export async function TibList({ searchParams }: TibListProps) {
                 <td className="px-4 py-3 text-white/60 font-mono">
                   {formatProofGallons(record.total_pg)}
                 </td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/transfers/${record.id}/edit`}
+                    onDelete={deleteTibRecord.bind(null, record.id)}
+                    recordLabel={record.tib_number != null ? `TIB #${record.tib_number}` : 'this transfer'}
+                  />
+                </td>
               </tr>
             ))}
             {records.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={9} className="px-4 py-8 text-center text-white/30">
                   No transfer records found
                 </td>
               </tr>

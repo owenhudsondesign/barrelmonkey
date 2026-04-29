@@ -1,6 +1,8 @@
 import { getDumpBatches } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteDumpBatch } from '@/lib/actions/dump-batches'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
 interface DumpBatchListProps {
@@ -28,6 +30,7 @@ export async function DumpBatchList({ searchParams }: DumpBatchListProps) {
               <th className="px-4 py-3 font-medium">Loss</th>
               <th className="px-4 py-3 font-medium">To Tank</th>
               <th className="px-4 py-3 font-medium">Operator</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -50,11 +53,18 @@ export async function DumpBatchList({ searchParams }: DumpBatchListProps) {
                 </td>
                 <td className="px-4 py-3 text-white/60">{batch.target_tank?.name ?? '—'}</td>
                 <td className="px-4 py-3 text-white/60">{batch.operator ?? '—'}</td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/processing/dumps/${batch.id}/edit`}
+                    onDelete={deleteDumpBatch.bind(null, batch.id)}
+                    recordLabel={`dump batch from ${formatDate(batch.dump_date)}`}
+                  />
+                </td>
               </tr>
             ))}
             {batches.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={9} className="px-4 py-8 text-center text-white/30">
                   No dump batches found
                 </td>
               </tr>

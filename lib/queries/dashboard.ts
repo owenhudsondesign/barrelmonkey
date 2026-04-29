@@ -55,6 +55,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     supabase
       .from('dump_batches')
       .select('id, dump_date, spirit_type, barrel_count, blend_lot_name')
+      .is('deleted_at', null)
       .order('dump_date', { ascending: false })
       .limit(5)
       .returns<RecentDumpRow[]>(),

@@ -1,6 +1,8 @@
 import { getBottlingRuns } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteBottlingRun } from '@/lib/actions/bottling'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
 interface BottlingRunListProps {
@@ -29,6 +31,7 @@ export async function BottlingRunList({ searchParams }: BottlingRunListProps) {
               <th className="px-4 py-3 font-medium">PG Bottled</th>
               <th className="px-4 py-3 font-medium">Format</th>
               <th className="px-4 py-3 font-medium">Source</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -48,11 +51,18 @@ export async function BottlingRunList({ searchParams }: BottlingRunListProps) {
                 <td className="px-4 py-3 text-white/60 font-mono">{formatProofGallons(run.proof_gal_bottled)}</td>
                 <td className="px-4 py-3 text-white/50 text-xs">{run.pack_format ?? '—'}</td>
                 <td className="px-4 py-3 text-white/60">{run.source_tank?.name ?? '—'}</td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/processing/bottling/${run.id}/edit`}
+                    onDelete={deleteBottlingRun.bind(null, run.id)}
+                    recordLabel={`bottling run for ${run.product_name}`}
+                  />
+                </td>
               </tr>
             ))}
             {runs.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={10} className="px-4 py-8 text-center text-white/30">
                   No bottling runs found
                 </td>
               </tr>

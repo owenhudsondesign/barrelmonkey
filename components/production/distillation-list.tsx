@@ -1,6 +1,8 @@
 import { getDistillationRuns } from '@/lib/queries/production'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteDistillationRun } from '@/lib/actions/distillation'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
 interface DistillationListProps {
@@ -27,6 +29,7 @@ export async function DistillationList({ searchParams }: DistillationListProps) 
               <th className="px-4 py-3 font-medium">Date</th>
               <th className="px-4 py-3 font-medium">Proof Gal</th>
               <th className="px-4 py-3 font-medium">Total PG</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -42,11 +45,18 @@ export async function DistillationList({ searchParams }: DistillationListProps) 
                 <td className="px-4 py-3 text-white/60">{formatDate(run.run_date)}</td>
                 <td className="px-4 py-3 text-white/60 font-mono">{formatProofGallons(run.proof_gal)}</td>
                 <td className="px-4 py-3 text-white/60 font-mono">{formatProofGallons(run.pg_total)}</td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/production/distillation/${run.id}/edit`}
+                    onDelete={deleteDistillationRun.bind(null, run.id)}
+                    recordLabel={`run #${run.run_number}`}
+                  />
+                </td>
               </tr>
             ))}
             {runs.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
                   No distillation runs found
                 </td>
               </tr>
