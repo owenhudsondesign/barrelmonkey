@@ -1,6 +1,8 @@
 import { getBatchingRuns } from '@/lib/queries/processing'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteBatchingRun } from '@/lib/actions/batching'
 import { formatDate, formatProofGallons } from '@/lib/utils/format'
 
 interface BatchingRunListProps {
@@ -28,6 +30,7 @@ export async function BatchingRunList({ searchParams }: BatchingRunListProps) {
               <th className="px-4 py-3 font-medium">PG Out</th>
               <th className="px-4 py-3 font-medium">Proof</th>
               <th className="px-4 py-3 font-medium">To Tank</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -46,11 +49,18 @@ export async function BatchingRunList({ searchParams }: BatchingRunListProps) {
                   {run.actual_proof != null ? `${run.actual_proof.toFixed(1)} PF` : '—'}
                 </td>
                 <td className="px-4 py-3 text-white/60">{run.to_tank?.name ?? '—'}</td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/processing/batching/${run.id}/edit`}
+                    onDelete={deleteBatchingRun.bind(null, run.id)}
+                    recordLabel={`batch ${run.batch_number}`}
+                  />
+                </td>
               </tr>
             ))}
             {runs.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={9} className="px-4 py-8 text-center text-white/30">
                   No batching runs found
                 </td>
               </tr>

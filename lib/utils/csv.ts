@@ -1,7 +1,25 @@
-import type { Barrel, Rackhouse } from '@/lib/types/database'
-
-interface BarrelRow extends Barrel {
-  rackhouse: Pick<Rackhouse, 'name'> | null
+interface BarrelRow {
+  barrel_number: string
+  spirit_type: string
+  status: string
+  size_gal: number | null
+  fill_date: string | null
+  entry_pf: number | null
+  fill_proof_gal: number | null
+  fill_wine_gal: number | null
+  slot: string | null
+  barrel_type: string | null
+  cooperage: string | null
+  new_or_used: string | null
+  lot_number: string | null
+  internal_lot_name: string | null
+  current_dsp: string | null
+  dump_date: string | null
+  dump_proof: number | null
+  dump_proof_gal: number | null
+  dump_wine_gal: number | null
+  notes: string | null
+  rackhouse: { name: string } | null
 }
 
 export function barrelsToCsv(barrels: BarrelRow[]): string {

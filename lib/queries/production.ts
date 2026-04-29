@@ -49,6 +49,7 @@ export async function getFermentationBatches(params: FermentationBatchListParams
        fermenter:fermenters(name)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('start_date', { ascending: false })
     .range(from, to)
     .returns<FermentationBatchListRow[]>()
@@ -71,6 +72,7 @@ export async function getDistillationRuns(params: DistillationRunListParams = {}
        run_date, proof_gal, pg_total`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('run_date', { ascending: false })
     .range(from, to)
     .returns<DistillationRunListRow[]>()

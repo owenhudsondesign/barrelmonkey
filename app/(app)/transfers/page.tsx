@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Suspense } from 'react'
 import { TibList } from '@/components/transfers/tib-list'
 import { TibFilters } from '@/components/transfers/tib-filters'
@@ -15,11 +16,22 @@ export default async function TransfersPage({
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Transfers in Bond</h1>
-        <p className="text-sm text-white/40 mt-1">
-          TIB records — inbound and outbound transfers
-        </p>
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Transfers in Bond</h1>
+          <p className="text-sm text-white/40 mt-1">
+            TIB records — inbound and outbound transfers
+          </p>
+        </div>
+        <Link
+          href="/transfers/new"
+          className="inline-flex items-center gap-1.5 bg-accent text-black font-semibold text-sm py-2 px-4 rounded-md hover:bg-accent/90 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Add Transfer
+        </Link>
       </div>
 
       <TibFilters />

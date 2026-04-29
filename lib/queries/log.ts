@@ -62,6 +62,7 @@ export async function getRecentActivity(
        barrel:barrels(barrel_number)`,
       { count: 'exact' }
     )
+    .is('deleted_at', null)
     .order('event_date', { ascending: false })
     .limit(fetchLimit)
 
@@ -76,8 +77,8 @@ export async function getRecentActivity(
     .limit(fetchLimit)
 
   if (eventType) {
-    barrelQuery = barrelQuery.eq('event_type', eventType)
-    tankQuery = tankQuery.eq('event_type', eventType)
+    barrelQuery = barrelQuery.eq('event_type', eventType as BarrelEventType)
+    tankQuery = tankQuery.eq('event_type', eventType as TankEventType)
   }
 
   const [barrelResult, tankResult] = await Promise.all([

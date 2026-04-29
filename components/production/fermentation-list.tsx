@@ -1,6 +1,8 @@
 import { getFermentationBatches } from '@/lib/queries/production'
 import { SpiritBadge } from '@/components/ui/spirit-badge'
 import { Pagination } from '@/components/ui/pagination'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteFermentationBatch } from '@/lib/actions/fermentation'
 import { formatDate, formatGallons } from '@/lib/utils/format'
 import type { FermentationStatus } from '@/lib/types/database'
 
@@ -35,6 +37,7 @@ export async function FermentationList({ searchParams }: FermentationListProps) 
               <th className="px-4 py-3 font-medium">Start Date</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium">Volume</th>
+              <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
           <tbody>
@@ -55,11 +58,18 @@ export async function FermentationList({ searchParams }: FermentationListProps) 
                   </span>
                 </td>
                 <td className="px-4 py-3 text-white/60 font-mono">{formatGallons(batch.volume_gal)}</td>
+                <td className="px-4 py-3">
+                  <RowActions
+                    editHref={`/production/fermentation/${batch.id}/edit`}
+                    onDelete={deleteFermentationBatch.bind(null, batch.id)}
+                    recordLabel={`batch ${batch.batch_number}`}
+                  />
+                </td>
               </tr>
             ))}
             {batches.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-white/30">
+                <td colSpan={9} className="px-4 py-8 text-center text-white/30">
                   No fermentation batches found
                 </td>
               </tr>

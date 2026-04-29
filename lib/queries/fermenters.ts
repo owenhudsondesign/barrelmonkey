@@ -65,6 +65,7 @@ export async function getFermenterDetail(id: string): Promise<{
     .from('fermentation_batches')
     .select('id, batch_number, internal_run_name, internal_lot_name, spirit_type, mash_bill, volume_gal, start_date, status, notes')
     .eq('fermenter_id', id)
+    .is('deleted_at', null)
     .order('start_date', { ascending: false })
     .returns<FermenterBatchRow[]>()
 

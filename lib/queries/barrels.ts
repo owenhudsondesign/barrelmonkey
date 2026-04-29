@@ -164,6 +164,7 @@ export async function getBarrelById(id: string) {
        to_tank:tanks!barrel_events_to_tank_id_fkey(name)`
     )
     .eq('barrel_id', id)
+    .is('deleted_at', null)
     .order('event_date', { ascending: true })
 
   if (eventsError) throw eventsError

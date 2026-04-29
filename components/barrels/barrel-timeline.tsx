@@ -3,6 +3,7 @@ import { ProvenanceTimelineEvent } from './provenance-timeline-event'
 import type { BarrelProvenance } from '@/lib/types/database'
 
 interface BarrelTimelineProps {
+  barrelId: string
   events: Array<{
     id: string
     event_type: string
@@ -34,7 +35,7 @@ interface BarrelTimelineProps {
   provenance?: BarrelProvenance | null
 }
 
-export function BarrelTimeline({ events, provenance }: BarrelTimelineProps) {
+export function BarrelTimeline({ barrelId, events, provenance }: BarrelTimelineProps) {
   const hasProvenance = provenance && provenance.batchingRuns.length > 0
 
   return (
@@ -46,6 +47,7 @@ export function BarrelTimeline({ events, provenance }: BarrelTimelineProps) {
         {events.map((event, index) => (
           <TimelineEvent
             key={event.id}
+            barrelId={barrelId}
             event={event}
             isFirst={index === 0}
             isLast={index === events.length - 1 && !hasProvenance}

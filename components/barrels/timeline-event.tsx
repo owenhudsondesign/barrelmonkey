@@ -1,7 +1,10 @@
 import { formatDateTime, formatProof, formatGallons, formatProofGallons } from '@/lib/utils/format'
+import { RowActions } from '@/components/ui/row-actions'
+import { deleteBarrelEvent } from '@/lib/actions/barrel-events'
 import type { BarrelEventType } from '@/lib/types/database'
 
 interface TimelineEventProps {
+  barrelId: string
   event: {
     id: string
     event_type: string
@@ -51,7 +54,7 @@ function formatLocation(rack: string | null, row: string | null, position: strin
   return parts.length > 0 ? parts.join('-') : null
 }
 
-export function TimelineEvent({ event }: TimelineEventProps) {
+export function TimelineEvent({ barrelId, event }: TimelineEventProps) {
   const config = EVENT_CONFIG[event.event_type as BarrelEventType] ?? {
     label: event.event_type,
     color: 'text-white/50',
@@ -78,6 +81,13 @@ export function TimelineEvent({ event }: TimelineEventProps) {
         <div className="flex items-center gap-2 mb-1">
           <span className={`text-sm font-medium ${config.color}`}>{config.label}</span>
           <span className="text-[11px] text-white/20">{formatDateTime(event.event_date)}</span>
+          <div className="ml-auto -my-1">
+            <RowActions
+              editHref={`/barrels/${barrelId}/events/${event.id}/edit`}
+              onDelete={deleteBarrelEvent.bind(null, event.id, barrelId)}
+              recordLabel={`${config.label.toLowerCase()} on ${formatDateTime(event.event_date)}`}
+            />
+          </div>
         </div>
 
         {/* Event-specific details */}

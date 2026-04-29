@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Suspense } from 'react'
 import { ProcessingTabs } from '@/components/processing/processing-tabs'
 import { DumpBatchList } from '@/components/processing/dump-batch-list'
@@ -8,6 +9,12 @@ export const metadata = {
   title: 'Processing — BarrelMonkey',
 }
 
+const ADD_LINKS: Record<string, { href: string; label: string }> = {
+  dumps: { href: '/processing/dumps/new', label: 'Add Dump' },
+  batching: { href: '/processing/batching/new', label: 'Add Batch' },
+  bottling: { href: '/processing/bottling/new', label: 'Add Run' },
+}
+
 export default async function ProcessingPage({
   searchParams,
 }: {
@@ -15,14 +22,28 @@ export default async function ProcessingPage({
 }) {
   const params = await searchParams
   const tab = params.tab ?? 'dumps'
+  const addLink = ADD_LINKS[tab]
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Processing</h1>
-        <p className="text-sm text-white/40 mt-1">
-          Dump batches, batching runs, and bottling
-        </p>
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Processing</h1>
+          <p className="text-sm text-white/40 mt-1">
+            Dump batches, batching runs, and bottling
+          </p>
+        </div>
+        {addLink && (
+          <Link
+            href={addLink.href}
+            className="inline-flex items-center gap-1.5 bg-accent text-black font-semibold text-sm py-2 px-4 rounded-md hover:bg-accent/90 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            {addLink.label}
+          </Link>
+        )}
       </div>
 
       <ProcessingTabs />

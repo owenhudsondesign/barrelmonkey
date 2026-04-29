@@ -77,6 +77,15 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
             {barrel.barrel_type && <span>{barrel.barrel_type}</span>}
           </div>
         </div>
+        <Link
+          href={`/barrels/${barrelId}/events/new`}
+          className="inline-flex items-center gap-1.5 bg-accent text-black font-semibold text-sm py-2 px-4 rounded-md hover:bg-accent/90 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Add Event
+        </Link>
       </div>
 
       {/* Dump summary — shown at top if barrel is dumped */}
@@ -168,7 +177,7 @@ export async function BarrelDetailPage({ barrelId }: BarrelDetailPageProps) {
           </span>
         </h2>
         {barrel.events && barrel.events.length > 0 ? (
-          <BarrelTimeline events={barrel.events} provenance={provenance} />
+          <BarrelTimeline barrelId={barrelId} events={barrel.events} provenance={provenance} />
         ) : (
           <p className="text-white/30 text-sm py-8 text-center">No events recorded yet.</p>
         )}
